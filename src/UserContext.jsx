@@ -1,0 +1,28 @@
+import { createContext, useEffect, useState } from "react";
+import axios from 'axios';
+
+export const UserContext = createContext({});
+
+export function UserContextProvider({ children }) {
+    const [user, setUser] = useState(null);
+    const [ready, setReady] = useState(false);
+    const [price, setPrice] = useState(0);
+    const [checkIn, setCheckIn] = useState("");
+    const [checkOut, setCheckOut] = useState("");
+    const [guests, setGuests] = useState(1);
+    const [datefns, setDatefns] = useState(false);
+    
+    useEffect( () => {
+      if (!user){
+        axios.get("/auth/profile").then(({data}) => {
+          setUser(data);
+          setReady(true);
+        });
+      }
+    }, [])
+  return (
+    <UserContext.Provider value={{ user, setUser, ready, setReady, price, setPrice, checkIn, setCheckIn, checkOut, setCheckOut, guests, setGuests, datefns, setDatefns }}>
+        { children }
+    </UserContext.Provider>
+  );
+}
