@@ -3,6 +3,7 @@ import Header from "../components/Header";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import DatesForm from "../components/DatesForm";
+import Footer from "../components/Footer";
 
 const Home = () => {
   const [accomodation, setAccomodation] = useState([]);
@@ -60,6 +61,7 @@ const Home = () => {
             ))}
         </div>
       </div>
+      <Footer />
     </>
   );
 };

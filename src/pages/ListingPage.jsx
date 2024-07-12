@@ -6,6 +6,7 @@ import { useParams } from "react-router-dom";
 import { IoLocationSharp } from "react-icons/io5";
 import RoomTypes from "../components/RoomTypes";
 import DatesForm from "../components/DatesForm";
+import Footer from "../components/Footer";
 
 const ListingPage = () => {
   const [hotel, setHotel] = useState({});
@@ -105,6 +106,7 @@ const ListingPage = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };
