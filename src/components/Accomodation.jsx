@@ -9,7 +9,6 @@ const Accomodation = () => {
   const { action } = useParams();
   const [accomodation, setAccomodation] = useState([]);
   useEffect(() => {
-    // const { user } = JSON.parse(localStorage.getItem("user"));
     const fetchAccomodation = async () => {
       const response = await axios.get("/places/accomodation");
       setAccomodation(response.data);

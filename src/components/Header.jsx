@@ -1,4 +1,3 @@
-import React from "react";
 import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { IoHome } from "react-icons/io5";

@@ -33,8 +33,8 @@ function App() {
       <Route path="/account/accomodation/new" element={<AccomodationForm />} />,
       <Route path="/account/accomodation/:id" element={<AccomodationForm />} />,
       <Route path="/account/accomodation/:id/rooms" element={<RoomForm />} />,
-      <Route path="/hotel/:id/booking/payment" element={<Payment />} />,
-      <Route path="/booking/:bookingStatus" element={<Payment />} />
+      <Route path="/booking/:bookingStatus" element={<Payment />} />,
+
     ])
   );
   return (

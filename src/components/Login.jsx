@@ -19,7 +19,7 @@ const Login = () => {
     try{
       const { data } = await axios.post("/auth/login", { email, password });
       setUser(data);
-      // const userData = localStorage.setItem('user', JSON.stringify(data));
+      localStorage.setItem('user', JSON.stringify(data));
       navigate("/");
     } 
     catch (error) {

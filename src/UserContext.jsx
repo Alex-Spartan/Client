@@ -13,7 +13,11 @@ export function UserContextProvider({ children }) {
     const [datefns, setDatefns] = useState(false);
     
     useEffect( () => {
-      if (!user){
+      const storedUser = localStorage.getItem('user');
+      if (storedUser) {
+        setUser(JSON.parse(storedUser));
+      }
+      else {
         axios.get("/auth/profile").then(({data}) => {
           setUser(data);
           setReady(true);

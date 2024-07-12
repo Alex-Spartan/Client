@@ -6,25 +6,25 @@ import Header from "../components/Header";
 import { loadStripe } from "@stripe/stripe-js";
 
 const Booking = () => {
-  const [hotel, setHotel] = useState([]);
+  const [hotel, setHotel] = useState({});
   const [guest, setGuest] = useState({
+    id: "",
     name: "",
     email: "",
     phone: "",
   });
   const [nights, setNights] = useState(1);
-  const { user, price, checkIn, checkOut, guests } = useContext(UserContext);
-  const [calculatedPrice, setCalculatedPrice] = useState(price);
+  const { user, price, setPrice, checkIn, checkOut, guests } =
+    useContext(UserContext);
 
-  const tax = Math.round(0.18 * calculatedPrice);
-  const total = calculatedPrice + tax;
+  const [total, setTotal] = useState(price);
+  const [tax, setTax] = useState(Math.round(price * 0.18));
   const { id } = useParams();
-  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchHotel = async () => {
       const response = await axios.get("/places/accomodation/" + id);
-      setHotel(response.data);
+      setHotel({...response.data });
     };
     const calculateNights = (checkIn, checkOut) => {
       const checkInDate = new Date(checkIn);
@@ -33,11 +33,12 @@ const Booking = () => {
       const differenceInDays = differenceInTime / (1000 * 3600 * 24);
       return differenceInDays;
     };
-
     setNights(calculateNights(checkIn, checkOut));
+
     fetchHotel();
-    setCalculatedPrice(price * nights);
-  }, [setHotel, checkIn, checkOut, price, nights]);
+    setPrice(price * nights);
+    setTotal(price + tax);
+  }, [setHotel, checkIn, checkOut, price]);
 
   const handleChange = (e) => {
     e.preventDefault();
@@ -48,45 +49,30 @@ const Booking = () => {
     }));
   };
 
-  const makePayment = async () => {
-    if (!user) {
-      <div>User not logged in</div>;
-    } else {
-      try {
+  const makePayment = async (e) => {
+    e.preventDefault();
+    setGuest({ ...guest, guestId: user._id });
 
-        const guestData = await axios.post(`/booking/${user._id}`, guest);
-      } catch (err) {
-        console.log(err);
-      }
+    
+    const bookingData = {price, hotel: hotel._id, checkIn, checkOut, }
+    // console.log(bookingData)
+    const userBooking = await axios.post(`/booking/userBooking/${user._id}`, bookingData);
 
-      const stripe = await loadStripe(
-        import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY
-      );
+    const guestData = await axios.post(`/booking/roomBooking/${id}`, guest);
+    console.log(guestData.data);
+    console.log(userBooking.data);
+    
+    const stripe = await loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
-      const body = {
-        price: total,
-        hotel: hotel.title,
-        checkIn: checkIn,
-        checkOut: checkOut,
-        guests: guests,
-      };
-
-      const response = await axios.post(
-        `/booking/create-checkout-session`,
-        body
-      );
-      const session = await response.data;
-      console.log(session);
-      const result = stripe.redirectToCheckout({
-        sessionId: session,
-      });
-
-      if (result.error) {
-        console.log(result.error.message);
-      }
+    const response = await axios.post('/booking/create-checkout-session', { price: total});
+    const session = response.data;
+    const result = await stripe.redirectToCheckout({
+      sessionId: session.id,
+    });
+    if (result.error) {
+      console.log(result.error.message);
     }
   };
-
 
   return (
     <div>
@@ -146,7 +132,7 @@ const Booking = () => {
               <div>{nights} Night x 1 Room</div>
               <div className="mt-2 flex justify-between">
                 <span className="text-sm">Price:</span>
-                <span className="float-right">₹{calculatedPrice}</span>
+                <span className="float-right">₹{price}</span>
               </div>
             </div>
             <div>

@@ -6,6 +6,8 @@ import { UserContext } from "../UserContext";
 import axios from "axios";
 import AccountNav from "../components/AccountNav";
 import Accomodation from "../components/Accomodation";
+import BookingList from "../components/BookingList";
+import Header from "../components/Header";
 
 
 const Account = () => {
@@ -35,6 +37,7 @@ const Account = () => {
   
   return (
     <>
+    <Header />
     <AccountNav subpage={subpage} />
       {subpage === "profile" && (
         <div className="flex flex-col justify-center items-center w-1/2 mx-auto mt-[5rem]">
@@ -51,6 +54,8 @@ const Account = () => {
       {subpage === "accomodation" && (
         <Accomodation />
       )}
+
+      {subpage === "bookings" && (<BookingList />)}
     </>
   );
 };
