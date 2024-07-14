@@ -33,7 +33,8 @@ const Home = () => {
                     <div className="col-span-1">
                       <Link to={`/hotel/${acc._id}`}>
                         <img
-                          src={`http://localhost:3000/uploads/${acc.photos[0]}`}
+                          // src={`http://localhost:3000/uploads/${acc.photos[0]}`}
+                          src={`https://gotripapi.onrender.com/uploads/${acc.photos[0]}`}
                           alt=""
                           className="md:w-[15rem] md:h-[18rem] rounded-lg"
                         />

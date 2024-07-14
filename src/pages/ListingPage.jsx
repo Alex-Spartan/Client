@@ -25,7 +25,7 @@ const ListingPage = () => {
       <div className="px-6 py-8 md:px-16 md:py-12 bg-[#FBFBFF]">
         <div className="flex justify-center">
           <div className="m-2 flex-1">
-            <div className="flex">
+            <div className="flex justify-between">
               <div className="px-12">
                 <h1 className="text-4xl font-semibold">{hotel.title}</h1>
                 <p className="text-lg">{hotel.location}</p>
@@ -35,26 +35,29 @@ const ListingPage = () => {
                   <div className="">
                     {hotel.photos?.[0] && (
                       <img
-                        src={`http://localhost:3000/uploads/${hotel.photos[0]}`}
+                        // src={`http://localhost:3000/uploads/${hotel.photos[0]}`}
+                        src={`https://gotripapi.onrender.com/uploads/${hotel.photos[0]}`}
                         alt=""
                         className="h-[30.5rem] w-[33rem]"
-                      />
-                    )}
+                        />
+                      )}
                   </div>
                   <div className=" flex flex-col gap-2">
                     <div>
                       {hotel.photos?.[1] && (
                         <img
-                          src={`http://localhost:3000/uploads/${hotel.photos[1]}`}
-                          alt=""
-                          className="h-[15rem] w-[20rem]"
+                        // src={`http://localhost:3000/uploads/${hotel.photos[1]}`}
+                        src={`https://gotripapi.onrender.com/uploads/${hotel.photos[1]}`}
+                        alt=""
+                        className="h-[15rem] w-[20rem]"
                         />
                       )}
                     </div>
                     <div className="">
                       {hotel.photos?.[2] && (
                         <img
-                          src={`http://localhost:3000/uploads/${hotel.photos[2]}`}
+                        // src={`http://localhost:3000/uploads/${hotel.photos[2]}`}
+                        src={`https://gotripapi.onrender.com/uploads/${hotel.photos[2]}`}
                           alt=""
                           className="h-[15rem]"
                         />

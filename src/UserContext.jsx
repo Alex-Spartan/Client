@@ -9,7 +9,7 @@ export function UserContextProvider({ children }) {
     const [price, setPrice] = useState(0);
     const [checkIn, setCheckIn] = useState("");
     const [checkOut, setCheckOut] = useState("");
-    const [guests, setGuests] = useState(1);
+    const [rooms, setRooms] = useState(1);
     const [datefns, setDatefns] = useState(false);
     
     useEffect( () => {
@@ -25,7 +25,7 @@ export function UserContextProvider({ children }) {
       }
     }, [])
   return (
-    <UserContext.Provider value={{ user, setUser, ready, setReady, price, setPrice, checkIn, setCheckIn, checkOut, setCheckOut, guests, setGuests, datefns, setDatefns }}>
+    <UserContext.Provider value={{ user, setUser, ready, setReady, price, setPrice, checkIn, setCheckIn, checkOut, setCheckOut, rooms, setRooms, datefns, setDatefns }}>
         { children }
     </UserContext.Provider>
   );

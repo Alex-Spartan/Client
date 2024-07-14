@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { UserContext } from "../UserContext";
 
 const DatesForm = () => {
-  const { checkIn, setCheckIn, checkOut, setCheckOut, guests, setGuests, setDatefns } = useContext(UserContext);
+  const { checkIn, setCheckIn, checkOut, setCheckOut,  rooms, setRooms, setDatefns } = useContext(UserContext);
 
   return (
     <div className="mt-12 flex flex-col justify-center w-1/2 mx-auto">
@@ -43,8 +43,8 @@ const DatesForm = () => {
                   <select
                     className="p-2 border-black border rounded-lg font-semibold"
                     placeholder="members"
-                    value={guests}
-                    onChange={(e) => setGuests(e.target.value)}
+                    value={rooms}
+                    onChange={(e) => setRooms(e.target.value)}
                   >
                     <option className="border-none p-2" value="1">
                       1 guest, 1 Room
@@ -58,13 +58,6 @@ const DatesForm = () => {
                   </select>
                 </div>
               </div>
-              {/* <div className="border-none m-4 w-[60%]">
-                <button onClick={e => {
-
-                }} className="p-2 bg-black text-white font-semibold w-full rounded-lg">
-                  Save
-                </button>
-              </div> */}
             </form>
           </div>
         </div>

@@ -18,7 +18,8 @@ import Payment from "./pages/Payment";
 import RoomForm from "./pages/RoomForm";
 
 
-axios.defaults.baseURL = "http://localhost:3000";
+axios.defaults.baseURL = "https://gotripapi.onrender.com";
+// axios.defaults.baseURL = "http://localhost:3000";
 axios.defaults.withCredentials = true; 
 
 function App() {

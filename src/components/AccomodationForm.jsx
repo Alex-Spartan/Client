@@ -15,6 +15,7 @@ const AccomodationForm = () => {
     amenities: [],
     extraInfo: [],
   });
+  const [photoLink, setPhotoLink] = useState("");
 
   const uploadByLink = async (e) => {
     e.preventDefault();
@@ -25,7 +26,7 @@ const AccomodationForm = () => {
       id: user._id,
       url: photoLink,
     });
-    setData((prev) => {
+    setFormData((prev) => {
       return {...prev, photos: [...prev.photos, data]};
     })
     e.target.value = "";

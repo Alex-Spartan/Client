@@ -4,6 +4,7 @@ import { UserContext } from "../UserContext";
 import axios from "axios";
 import Header from "../components/Header";
 import { loadStripe } from "@stripe/stripe-js";
+import Footer from "../components/Footer";
 
 const Booking = () => {
   const [hotel, setHotel] = useState({});
@@ -14,7 +15,7 @@ const Booking = () => {
     phone: "",
   });
   const [nights, setNights] = useState(1);
-  const { user, price, setPrice, checkIn, checkOut, guests } =
+  const { user, price, setPrice, checkIn, checkOut, rooms } =
     useContext(UserContext);
 
   const [total, setTotal] = useState(price);
@@ -36,9 +37,9 @@ const Booking = () => {
     setNights(calculateNights(checkIn, checkOut));
 
     fetchHotel();
-    setPrice(price * nights);
+    setPrice(price * nights * rooms);
     setTotal(price + tax);
-  }, [setHotel, checkIn, checkOut, price]);
+  }, [setHotel, checkIn, checkOut]);
 
   const handleChange = (e) => {
     e.preventDefault();
@@ -93,7 +94,8 @@ const Booking = () => {
               </div>
               <div>
                 <img
-                  src={`http://localhost:3000/uploads/${hotel.photos?.[0]}`}
+                  src={`https://gotripapi.onrender.com/uploads/${hotel.photos?.[0]}`}
+                  // src={`http://localhost:3000/uploads/${hotel.photos?.[0]}`}
                   className="w-[8rem]"
                   alt=""
                 />
@@ -117,8 +119,7 @@ const Booking = () => {
                 <div className="px-3 border-r-2 border-gray-400">
                   {nights} Night
                 </div>
-                <div className="px-3 border-r-2 border-gray-400">1 Room</div>
-                <div className="px-3">{guests} guests</div>
+                <div className="px-3">1 Room</div>
               </div>
             </div>
           </div>
@@ -216,6 +217,7 @@ const Booking = () => {
           <div className="my-6 mx-16 "></div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

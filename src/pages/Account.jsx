@@ -19,6 +19,7 @@ const Account = () => {
   const logout = async () => {
     await axios.post("/auth/logout");
     setUser(null);
+    localStorage.removeItem("user");
     navigate("/");
   };
 

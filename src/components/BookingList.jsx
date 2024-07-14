@@ -31,7 +31,8 @@ const BookingList = () => {
                     <div className="col-span-1">
                       <Link to={`/hotel/${hotelData._id}`}>
                         <img
-                          src={`http://localhost:3000/uploads/${hotelData.photos?.[0]}`}
+                          // src={`http://localhost:3000/uploads/${hotelData.photos?.[0]}`}
+                          src={`https://gotripapi.onrender.com/uploads/${hotelData.photos?.[0]}`}
                           alt=""
                           className="md:w-[15rem] md:h-[18rem] rounded-lg"
                         />

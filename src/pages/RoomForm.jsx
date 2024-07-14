@@ -1,9 +1,7 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
-import { UserContext } from "../UserContext";
 import Header from "../components/Header";
-import { IoStarOutline, IoTrashOutline } from "react-icons/io5";
 import Amenities from "../components/Amenities";
 import Photoform from "../components/Photoform";
 
@@ -45,19 +43,17 @@ const RoomForm = () => {
         photos: [...prev.photos, data],
       };
     });
-    e.target.value = "";
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const response = await axios.post(`/places/rooms/${id}`, formData);
-      console.log(response.message);
       setUploadStatus(true);
       setTimeout(() => navigate('/account/accomodation'), 2000)
       
     } catch (error) {
-      console.error(error);
+      console.error("Error submitting form ", error);
     }
   };
 

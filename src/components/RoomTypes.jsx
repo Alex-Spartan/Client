@@ -48,9 +48,12 @@ const RoomTypes = () => {
 
                 <div className="">
                   <img
-                    src={`http://localhost:3000/uploads/${
-                      room?.photos?.[roomImageIndexes[room._id] || 0]
+                    src={`https://gotripapi.onrender.com/uploads/${
+                      room.photos?.[roomImageIndexes[room._id] || 0]
                     }`}
+                    // src={`http://localhost:3000/uploads/${
+                    //   room?.photos?.[roomImageIndexes[room._id] || 0]
+                    // }`}
                     className="w-[24rem]"
                     alt="image"
                   />
@@ -64,7 +67,7 @@ const RoomTypes = () => {
                 </button>
                 <div className="absolute right-6 bottom-2 bg-slate-400 bg-opacity-40 font-bold p-1 rounded-lg">
                   {(roomImageIndexes[room?._id] || 0) + 1}/
-                  {room?.photos?.length}
+                  {room.photos?.length}
                 </div>
               </div>
               <div>
