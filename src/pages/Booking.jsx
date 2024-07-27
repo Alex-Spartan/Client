@@ -94,8 +94,8 @@ const Booking = () => {
               </div>
               <div>
                 <img
-                  src={`https://gotripapi.onrender.com/uploads/${hotel.photos?.[0]}`}
-                  // src={`http://localhost:3000/uploads/${hotel.photos?.[0]}`}
+                  // src={`https://gotripapi.onrender.com/uploads/${hotel.photos?.[0]}`}
+                  src={`http://localhost:3000/uploads/${hotel.photos?.[0]}`}
                   className="w-[8rem]"
                   alt=""
                 />

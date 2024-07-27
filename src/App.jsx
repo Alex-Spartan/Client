@@ -1,8 +1,8 @@
 import axios from "axios";
 
-import Login from "./components/Login";
-import Signup from "./components/Signup";
-import Home from "./pages/Home";
+import Login from "./pages/Login/Login";
+import Signup from "./pages/Login/Signup";
+import Home from "./pages/Home/Home";
 import { UserContextProvider } from "./UserContext";
 import {
   RouterProvider,
@@ -18,8 +18,8 @@ import Payment from "./pages/Payment";
 import RoomForm from "./pages/RoomForm";
 
 
-axios.defaults.baseURL = "https://gotripapi.onrender.com";
-// axios.defaults.baseURL = "http://localhost:3000";
+// axios.defaults.baseURL = "https://gotripapi.onrender.com";
+axios.defaults.baseURL = "http://localhost:3000";
 axios.defaults.withCredentials = true; 
 
 function App() {

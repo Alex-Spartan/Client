@@ -8,8 +8,8 @@ import {
 const Footer = () => {
   return (
     <div className="mt-24 px-16 py-8 text-lg text-white bg-[#12130F]">
-      <div className=" grid grid-cols-12">
-        <div className="col-span-3">
+      <div className="flex flex-col md:grid md:grid-cols-12">
+        <div className="my-3 md:col-span-3">
           <div className="flex flex-col font-bold">
             <h1>GoTrip</h1>
           </div>
@@ -20,22 +20,22 @@ const Footer = () => {
             </p>
           </div>
         </div>
-        <div className="col-span-2"></div>
-        <div className="flex gap-12 col-span-4">
-          <div>
+        <div className="md:col-span-2"></div>
+        <div className="flex my-2 gap-16 md:gap-12 md:col-span-4">
+          <div className="flex flex-col gap-1">
             <div>Company</div>
             <div>Name</div>
             <div>Address</div>
           </div>
-          <div>
+          <div className="flex flex-col gap-1">
             <div>Contact</div>
             <div>DontContact@gmail.com</div>
             <div>Partners</div>
           </div>
         </div>
-        <div className="col-span-1"></div>
-        <div className="col-span-2">
-          <div className="mb-3">Follow us:</div>
+        <div className="md:col-span-1"></div>
+        <div className="flex items-center gap-4 md:col-span-2">
+          <div className="my-3">Follow us:</div>
           <div className="flex gap-4 text-3xl">
             <div>
               <IoLogoFacebook />

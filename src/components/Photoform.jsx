@@ -48,8 +48,8 @@ const Photoform = ({ photoLink, setPhotoLink, data, setData, uploadByLink, uploa
           data.photos.map((link, index) => (
             <div className="relative" key={index}>
               <img
-                // src={`http://localhost:3000/uploads/${link}`}
-                src={`https://gotripapi.onrender.com/uploads/${link}`}
+                src={`http://localhost:3000/uploads/${link}`}
+                // src={`https://gotripapi.onrender.com/uploads/${link}`}
                 width={250}
                 height={200}
                 className="h-[15rem] rounded-xl object-cover"

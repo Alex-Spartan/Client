@@ -3,9 +3,8 @@ import { useEffect, useState } from "react";
 import Header from "../components/Header";
 import { useParams } from "react-router-dom";
 
-import { IoLocationSharp } from "react-icons/io5";
 import RoomTypes from "../components/RoomTypes";
-import DatesForm from "../components/DatesForm";
+import DatesForm from "./Home/DatesForm";
 import Footer from "../components/Footer";
 
 const ListingPage = () => {
@@ -35,8 +34,8 @@ const ListingPage = () => {
                   <div className="">
                     {hotel.photos?.[0] && (
                       <img
-                        // src={`http://localhost:3000/uploads/${hotel.photos[0]}`}
-                        src={`https://gotripapi.onrender.com/uploads/${hotel.photos[0]}`}
+                        src={`http://localhost:3000/uploads/${hotel.photos[0]}`}
+                        // src={`https://gotripapi.onrender.com/uploads/${hotel.photos[0]}`}
                         alt=""
                         className="h-[30.5rem] w-[33rem]"
                         />
@@ -46,8 +45,8 @@ const ListingPage = () => {
                     <div>
                       {hotel.photos?.[1] && (
                         <img
-                        // src={`http://localhost:3000/uploads/${hotel.photos[1]}`}
-                        src={`https://gotripapi.onrender.com/uploads/${hotel.photos[1]}`}
+                        src={`http://localhost:3000/uploads/${hotel.photos[1]}`}
+                        // src={`https://gotripapi.onrender.com/uploads/${hotel.photos[1]}`}
                         alt=""
                         className="h-[15rem] w-[20rem]"
                         />
@@ -56,8 +55,8 @@ const ListingPage = () => {
                     <div className="">
                       {hotel.photos?.[2] && (
                         <img
-                        // src={`http://localhost:3000/uploads/${hotel.photos[2]}`}
-                        src={`https://gotripapi.onrender.com/uploads/${hotel.photos[2]}`}
+                        src={`http://localhost:3000/uploads/${hotel.photos[2]}`}
+                        // src={`https://gotripapi.onrender.com/uploads/${hotel.photos[2]}`}
                           alt=""
                           className="h-[15rem]"
                         />

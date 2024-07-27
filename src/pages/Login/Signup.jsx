@@ -1,8 +1,8 @@
 import axios from "axios";
 import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import LoginForm from "./LoginForm";
-import { UserContext } from "../UserContext";
+import LoginForm from "../../components/LoginForm";
+import { UserContext } from "../../UserContext";
 
 const Signup = () => {
   const [name, setName] = useState("");

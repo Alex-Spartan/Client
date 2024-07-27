@@ -48,12 +48,12 @@ const RoomTypes = () => {
 
                 <div className="">
                   <img
-                    src={`https://gotripapi.onrender.com/uploads/${
-                      room.photos?.[roomImageIndexes[room._id] || 0]
-                    }`}
-                    // src={`http://localhost:3000/uploads/${
-                    //   room?.photos?.[roomImageIndexes[room._id] || 0]
+                    // src={`https://gotripapi.onrender.com/uploads/${
+                    //   room.photos?.[roomImageIndexes[room._id] || 0]
                     // }`}
+                    src={`http://localhost:3000/uploads/${
+                      room?.photos?.[roomImageIndexes[room._id] || 0]
+                    }`}
                     className="w-[24rem]"
                     alt="image"
                   />

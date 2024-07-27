@@ -1,10 +1,9 @@
 import { useContext, useEffect, useState } from "react";
-import { loginBg } from "../assets/Index";
 
-import { Form, Link, useNavigate } from "react-router-dom";
-import LoginForm from "./LoginForm";
+import { Link, useNavigate } from "react-router-dom";
+import LoginForm from "../../components/LoginForm";
 import axios from "axios";
-import { UserContext } from "../UserContext";
+import { UserContext } from "../../UserContext";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -27,15 +26,8 @@ const Login = () => {
     }
   }
 
-  // useEffect(() => {
-  //   const data = localStorage.getItem('user');
-  //   const user = JSON.parse(data);
-  //   if(user) {
-  //     setUser(user)
-  //   }
-  // }, [user])
   return (
-    <LoginForm title="Login" img={loginBg}>
+    <LoginForm title="Login">
       <form onSubmit={handleSubmit}>
         <div className="text-lg">
           <div className="mt-6">
