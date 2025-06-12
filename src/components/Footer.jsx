@@ -21,7 +21,7 @@ const Footer = () => {
           </div>
         </div>
         <div className="md:col-span-2"></div>
-        <div className="flex my-2 gap-16 md:gap-12 md:col-span-4">
+        <div className="flex my-3 gap-16 md:gap-12 md:col-span-4">
           <div className="flex flex-col gap-1">
             <div>Company</div>
             <div>Name</div>
@@ -34,7 +34,7 @@ const Footer = () => {
           </div>
         </div>
         <div className="md:col-span-1"></div>
-        <div className="flex items-center gap-4 md:col-span-2">
+        <div className="flex my-2 items-center gap-4 md:col-span-2">
           <div className="my-3">Follow us:</div>
           <div className="flex gap-4 text-3xl">
             <div>

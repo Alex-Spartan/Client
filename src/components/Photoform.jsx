@@ -18,7 +18,7 @@ const Photoform = ({ photoLink, setPhotoLink, data, setData, uploadByLink, uploa
 
   const makeCover = (e, link) => {
     e.preventDefault();
-    const photoArray = [...data.photos.filter(photo => photo !== link)]
+    const photoArray = [...data.photos.filter(photo => photo !== link)] //eslint-disable-line
     setData({...data, photos: [link, ...photoArray]});
   }
 
@@ -48,7 +48,7 @@ const Photoform = ({ photoLink, setPhotoLink, data, setData, uploadByLink, uploa
           data.photos.map((link, index) => (
             <div className="relative" key={index}>
               <img
-                src={`http://localhost:3000/uploads/${link}`}
+                src={link}
                 // src={`https://gotripapi.onrender.com/uploads/${link}`}
                 width={250}
                 height={200}

@@ -7,6 +7,7 @@ const BookingList = () => {
   const [booking, setBooking] = useState([]);
   const [hotelData, setHotelData] = useState([]);
   const { user } = useContext(UserContext);
+  console.log(user);
   useEffect(() => {
     const showBooking = async () => {
       const response = await axios.get(`/booking/user/${user._id}`);
@@ -17,6 +18,10 @@ const BookingList = () => {
     };
     showBooking();
   }, [user._id]);
+
+  if (!hotelData) {
+    return <div>Loading...</div>; // Show a loading state while data is being fetched
+  }
 
   return (
     <div>
@@ -31,7 +36,7 @@ const BookingList = () => {
                     <div className="col-span-1">
                       <Link to={`/hotel/${hotelData._id}`}>
                         <img
-                          src={`http://localhost:3000/uploads/${hotelData.photos?.[0]}`}
+                          src={`https://gotripapi.onrender.com/uploads/${hotelData.photos?.[0]}`}
                           // src={`https://gotripapi.onrender.com/uploads/${hotelData.photos?.[0]}`}
                           alt=""
                           className="md:w-[15rem] md:h-[18rem] rounded-lg"
@@ -48,8 +53,8 @@ const BookingList = () => {
                         </Link>
                       </div>
                       <div className="text-lg font-semibold">
-                        <p>CheckIn Date: {book.checkIn.split('T')[0]}</p>
-                        <p>CheckOut Date: {book.checkOut.split('T')[0]}</p>
+                        <p>CheckIn Date: {book.checkIn.split('T')[0] || ""}</p>
+                        <p>CheckOut Date: {book.checkOut.split('T')[0] || ""}</p>
                       </div>
                     </div>
                     <div className="md:border-gray-700 md:border-l md:col-span-1 text-center">

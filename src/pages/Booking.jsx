@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import { UserContext } from "../UserContext";
 import axios from "axios";
 import Header from "../components/Header";
@@ -65,11 +65,12 @@ const Booking = () => {
     
     const stripe = await loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
-    const response = await axios.post('/booking/create-checkout-session', { price: total});
+    const response = await axios.post('/booking/create-checkout-session', { price: total });
     const session = response.data;
     const result = await stripe.redirectToCheckout({
       sessionId: session.id,
     });
+    console.log(result);
     if (result.error) {
       console.log(result.error.message);
     }
@@ -79,14 +80,14 @@ const Booking = () => {
     <div>
       <Header />
       <div className="">
-        <div className="py-4 px-5 p-2 bg-[#272D2D] md:py-6 md:px-16">
+        <div className="py-7 px-5 p-2 bg-[#272D2D] md:py-6 md:px-16">
           <h1 className="text-3xl font-bold text-white pb-12">
             Review Booking
           </h1>
         </div>
-        <div className="py-4 px-5 p-2 md:py-6 md:px-16 grid grid-cols-12 relative -translate-y-6 -top-12">
-          <div className="col-span-1"></div>
-          <div className="flex flex-col z-10 bg-white  p-8 col-span-7 border border-gray-400 shadow-lg rounded-lg">
+        <div className="py-4 px-5 p-2 md:py-6 md:px-16 md:grid grid-cols-12 relative md:-translate-y-6 -top-12">
+          <div className="md:col-span-1"></div>
+          <div className="flex flex-col z-10 bg-white  p-8 col-span-7 border border-gray-400 shadow-lg rounded-b-md rounded-lg">
             <div className="flex justify-between">
               <div>
                 <h1 className="text-3xl font-bold">{hotel.title}</h1>
@@ -95,7 +96,7 @@ const Booking = () => {
               <div>
                 <img
                   // src={`https://gotripapi.onrender.com/uploads/${hotel.photos?.[0]}`}
-                  src={`http://localhost:3000/uploads/${hotel.photos?.[0]}`}
+                  src={`https://gotripapi.onrender.com/uploads/${hotel.photos?.[0]}`}
                   className="w-[8rem]"
                   alt=""
                 />
@@ -124,7 +125,7 @@ const Booking = () => {
             </div>
           </div>
 
-          <div className="col-span-1"></div>
+          <div className="md:col-span-1"></div>
           <div className="col-span-3 bg-white border border-gray-400 shadow-lg rounded-lg py-4 px-8">
             <div className="py-4">
               <h1 className="text-xl">Price breakup</h1>
@@ -157,7 +158,7 @@ const Booking = () => {
         <div className="py-4 px-5 p-2 md:py-6 md:px-16 ">
           <div className="grid grid-cols-12">
             <div className="col-span-1"></div>
-            <form className="col-span-7" onSubmit={makePayment}>
+            <form className="col-span-10 md:col-span-7" onSubmit={makePayment}>
               <div className="py-4 px-5 p-2 md:py-6 md:px-16 flex flex-col gap-4 border border-slate-400 rounded-lg shadow-lg">
                 <div className="">
                   <label className="block text-sm font-medium text-gray-700">

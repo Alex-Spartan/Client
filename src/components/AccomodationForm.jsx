@@ -5,6 +5,12 @@ import Photoform from "./Photoform";
 import axios from "axios";
 import { UserContext } from "../UserContext";
 import { useNavigate, useParams } from "react-router-dom";
+import { storage } from "../firebase/firebaseConfig";
+import {
+  ref,
+  uploadBytes,
+  getDownloadURL,
+} from "firebase/storage";
 
 const AccomodationForm = () => {
   const [formData, setFormData] = useState({
@@ -35,22 +41,23 @@ const AccomodationForm = () => {
   const uploadFromDevice = (e) => {
     e.preventDefault();
     const files = e.target.files;
-    const data = new FormData();
+    if (files == null) return console.log("No file selected");
+
     for (let i = 0; i < files.length; i++) {
-      data.append("photos", files[i]);
+      const imageRef = ref(storage, `${user._id}/${files[i].name}`);
+      uploadBytes(imageRef, files[i])
+      .then((snapshot) => {
+        return getDownloadURL(snapshot.ref);
+      })
+      .then((url) => {
+        setFormData((prev) => {
+          return { ...prev, photos: [...prev.photos, url] };
+        });
+      })
+      .catch((error) => {
+        console.error("Error uploading file: ", error);
+      });
     }
-    data.append("id", user._id);
-    axios
-      .post("/places/upload", data, {
-        headers: { "Content-type": "multipart/form-data" },
-      })
-      .then((res) => {
-        const { data } = res;
-        setData((prev) => {
-          return {...prev, photos: [...prev.photos, data]};
-        })
-      })
-      .catch((err) => console.log(err));
   };
 
   const [uploadStatus, setUploadStatus] = useState(false);
@@ -97,18 +104,17 @@ const AccomodationForm = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
     try {
       if (!id) {
         console.log(formData);
         await axios.post("/places/accomodation", formData)
-        .then((res) => {
+        .then(() => {
           setUploadStatus(true);
           setTimeout(() => navigate("/account/accomodation"), 3000);
         });
       } else {
         axios.put("/places/accomodation/" + id, formData)
-        .then((res) => {
+        .then(() => {
           setUploadStatus(true);
           setTimeout(() => navigate("/account/accomodation"), 3000);
         });

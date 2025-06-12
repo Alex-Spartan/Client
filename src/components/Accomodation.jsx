@@ -17,7 +17,7 @@ const Accomodation = () => {
   }, [setAccomodation]);
 
   const deleteRoom = async (roomId, placeId) => {
-    const response = await axios.delete(`/places/rooms/${roomId}?placeId=${placeId}`);
+    await axios.delete(`/places/rooms/${roomId}?placeId=${placeId}`);
     const updatedRooms = accomodation.map(place => {
       if (place._id === placeId) {
         return {
@@ -57,7 +57,7 @@ const Accomodation = () => {
                   <img
                     width={250}
                     height={220}
-                    src={`http://localhost:3000/uploads/${place.photos[0]}`}
+                    src={`https://gotripapi.onrender.com/uploads/${place.photos[0]}`}
                     // src={`https://gotripapi.onrender.com/uploads/${place.photos[0]}`}
                     alt="image"
                     className="w-[13rem] h-[15rem]"

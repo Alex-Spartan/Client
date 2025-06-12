@@ -1,8 +1,7 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-import { IoArrowBackCircleOutline } from "react-icons/io5";
-import { IoArrowForwardCircleOutline } from "react-icons/io5";
+import { IoArrowBackCircleOutline, IoArrowForwardCircleOutline } from "react-icons/io5";
 import RoomOffer from "./RoomOffer";
 
 const RoomTypes = () => {
@@ -36,12 +35,12 @@ const RoomTypes = () => {
     <>
       {rooms.length > 0 &&
         rooms.map((room) => (
-          <div className="py-12 border-b-2 border-black" key={room._id}>
-            <div className="flex gap-14">
+          <div className="pb-8 md:py-12 border-b-2 border-black" key={room._id}>
+            <div className="flex flex-col items-center justify-center md:items-start md:justify-start md:flex-row gap-14">
               <div className="relative">
                 <button
-                  className="absolute left-4 top-1/2 text-black bg-gray-400 bg-opacity-65 rounded-full p-1 cursor-pointer"
-                  onClick={(e) => moveImage("left", room)}
+                  className="absolute left-2 md:left-4 top-1/2 text-black bg-gray-400 bg-opacity-65 rounded-full p-1 cursor-pointer"
+                  onClick={() => moveImage("left", room)}
                 >
                   <IoArrowBackCircleOutline size={25} />
                 </button>
@@ -49,11 +48,9 @@ const RoomTypes = () => {
                 <div className="">
                   <img
                     // src={`https://gotripapi.onrender.com/uploads/${
-                    //   room.photos?.[roomImageIndexes[room._id] || 0]
+                    //   room?.photos?.[roomImageIndexes[room._id] || 0]
                     // }`}
-                    src={`http://localhost:3000/uploads/${
-                      room?.photos?.[roomImageIndexes[room._id] || 0]
-                    }`}
+                    src="https://images.unsplash.com/photo-1472289065668-ce650ac443d2?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                     className="w-[24rem]"
                     alt="image"
                   />
@@ -61,7 +58,7 @@ const RoomTypes = () => {
 
                 <button
                   className="absolute right-4 top-1/2 text-black bg-gray-400 bg-opacity-65 rounded-full p-1 cursor-pointer"
-                  onClick={(e) => moveImage("right", room)}
+                  onClick={() => moveImage("right", room)}
                 >
                   <IoArrowForwardCircleOutline size={25} />
                 </button>
@@ -70,18 +67,18 @@ const RoomTypes = () => {
                   {room.photos?.length}
                 </div>
               </div>
-              <div>
-                <div>
+              <div className="">
+                <div className="text-center">
                   <h3 className="text-xl font-medium">{room.roomType}</h3>
                 </div>
-                <div className="mt-8 text-lg grid gap-x-24 gap-y-6 grid-cols-3">
+                <div className="mt-8 text-lg grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-x-24 md:gap-y-6">
                   {room.amenities.map((amenity, index) => (
                     <p key={index} className="text-lg">{amenity}</p>
                   ))}
                 </div>
               </div>
             </div>
-            <div className="flex gap-16">
+            <div className="flex flex-col items-center gap-2 md:flex-row md:gap-16">
               {room.truePrice && (
                 <RoomOffer
                   roomPrice={room.truePrice}

@@ -4,15 +4,31 @@ import { Link, useNavigate } from "react-router-dom";
 import LoginForm from "../../components/LoginForm";
 import axios from "axios";
 import { UserContext } from "../../UserContext";
+import { auth } from "../../firebase/firebaseConfig";
+import { IoLogoGoogle } from "react-icons/io5";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const { setUser } = useContext(UserContext)
+
   const setValue = (e, setVariable) => {
     setVariable(e.target.value);
   };
+
+  const LoginWithGoogle = async () => {
+    const provider = new GoogleAuthProvider();
+    try {
+      const data = await signInWithPopup(auth, provider);
+      setUser(data.user);
+      navigate("/");
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try{
@@ -61,6 +77,14 @@ const Login = () => {
           <div className="mt-6 mb-4">
             <button className="border-none rounded-lg px-8 py-1 w-full bg-[#46494C] ">
               Login
+            </button>
+            <button 
+              onClick={LoginWithGoogle} 
+              type="button"
+              className="border-none rounded-lg mt-4 px-8 py-1 w-full bg-[#46494C] flex items-center gap-2"
+            >
+              <IoLogoGoogle />
+              Login with Google
             </button>
           </div>
         </div>

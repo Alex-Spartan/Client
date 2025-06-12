@@ -1,11 +1,12 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import Header from "../components/Header";
 import { useParams } from "react-router-dom";
 
-import RoomTypes from "../components/RoomTypes";
-import DatesForm from "./Home/DatesForm";
-import Footer from "../components/Footer";
+import Header from "../../components/Header";
+import RoomTypes from "./RoomTypes";
+import DatesForm from "../Home/DatesForm";
+import Footer from "../../components/Footer";
+import PageWrapper from "../../components/PageWrapper";
 
 const ListingPage = () => {
   const [hotel, setHotel] = useState({});
@@ -21,12 +22,12 @@ const ListingPage = () => {
   return (
     <div>
       <Header />
-      <div className="px-6 py-8 md:px-16 md:py-12 bg-[#FBFBFF]">
+      <PageWrapper className="bg-[#FBFBFF]">
         <div className="flex justify-center">
-          <div className="m-2 flex-1">
-            <div className="flex justify-between">
-              <div className="px-12">
-                <h1 className="text-4xl font-semibold">{hotel.title}</h1>
+          <div className="m-3 md:m-2 flex-1">
+            <div className="flex flex-col-reverse gap-6 items-center md:flex-row md:justify-between">
+              <div className="md:px-12">
+                <h1 className="text-2xl md:text-4xl font-semibold">{hotel.title}</h1>
                 <p className="text-lg">{hotel.location}</p>
               </div>
               <div className="relative">
@@ -34,28 +35,29 @@ const ListingPage = () => {
                   <div className="">
                     {hotel.photos?.[0] && (
                       <img
-                        src={`http://localhost:3000/uploads/${hotel.photos[0]}`}
+                        src={hotel.photos[0]}
+                        // src="https://images.unsplash.com/photo-1472289065668-ce650ac443d2?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                         // src={`https://gotripapi.onrender.com/uploads/${hotel.photos[0]}`}
                         alt=""
-                        className="h-[30.5rem] w-[33rem]"
+                        className="w-[22rem] h-[15rem] md:h-[30.5rem] md:w-[33rem]"
                         />
                       )}
                   </div>
                   <div className=" flex flex-col gap-2">
-                    <div>
+                    <div className="hidden md:block">
                       {hotel.photos?.[1] && (
                         <img
-                        src={`http://localhost:3000/uploads/${hotel.photos[1]}`}
+                        src={hotel.photos[1]}
                         // src={`https://gotripapi.onrender.com/uploads/${hotel.photos[1]}`}
                         alt=""
                         className="h-[15rem] w-[20rem]"
                         />
                       )}
                     </div>
-                    <div className="">
+                    <div className="hidden md:block">
                       {hotel.photos?.[2] && (
                         <img
-                        src={`http://localhost:3000/uploads/${hotel.photos[2]}`}
+                        src={hotel.photos[2]}
                         // src={`https://gotripapi.onrender.com/uploads/${hotel.photos[2]}`}
                           alt=""
                           className="h-[15rem]"
@@ -67,47 +69,55 @@ const ListingPage = () => {
               </div>
             </div>
             <div className="flex flex-col gap-1">
+
+            {hotel.description && (
+                <div className="flex flex-col items-center px-2 py-8 md:block mt-2 md:px-12 md:py-16">
+                  <h1 className="text-3xl font-semibold">Description</h1>
+                  <p className="mt-3 ml-8">{hotel.description}</p>
+                  <hr />
+                </div>
+                
+              )}
+
+
               {hotel.amenities && (
-                <div className="mt-12 px-12 py-16">
+                <div className="flex flex-col items-center px-2 py-8 md:block mt-2 md:px-12 md:py-16">
                   <h1 className="text-3xl font-semibold">Amenities</h1>
                   <ul className="list-disc mt-3 flex flex-col gap-4">
                     {hotel.amenities?.map((amenity, index) => (
                       <li className="ml-8" key={index}>{amenity}</li>
                     ))}
                   </ul>
+                  <hr />
                 </div>
+                
               )}
-
+              
               {hotel.extraInfo?.length > 0 && (
-                <div className="mt-12 px-12 py-16">
-                  <h1 className="text-3xl font-semibold">Extra Info:</h1>
+                <div className="flex flex-col items-center px-2 py-8 md:block mt-2 md:px-12 md:py-16">
+                  <h1 className="text-3xl font-semibold">Extra Info</h1>
                   <ul className="list-disc mt-3 flex flex-col gap-4">
                     {hotel.extraInfo[0].split(",").map((info, index) => (
                       <li className="ml-8" key={index}>{info}</li>
                     ))}
                   </ul>
+                  <hr />
                 </div>
-              )}
-
-              {hotel.description && (
-                <div className="mt-12 px-12 py-16">
-                  <h1 className="text-3xl font-semibold">Description:</h1>
-                  <p className="mt-3 ml-8">{hotel.description}</p>
-                </div>
+                
               )}
             </div>
           </div>
         </div>
 
         {<DatesForm />}
-        <div className="mt-12 px-12"></div>
-        <div className="mt-12 px-12">
+        <div className="mt-2 md:px-12"></div>
+        <div className="mt-2 md:px-12">
           <h1 className="text-3xl font-semibold">Rooms available</h1>
           <div className="flex flex-col py-6">
             <RoomTypes />
           </div>
         </div>
-      </div>
+      </PageWrapper>
       <Footer />
     </div>
   );

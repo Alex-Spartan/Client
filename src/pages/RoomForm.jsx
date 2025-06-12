@@ -48,7 +48,7 @@ const RoomForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(`/places/rooms/${id}`, formData);
+      await axios.post(`/places/rooms/${id}`, formData);
       setUploadStatus(true);
       setTimeout(() => navigate('/account/accomodation'), 2000)
       

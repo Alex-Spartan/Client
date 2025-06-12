@@ -12,14 +12,14 @@ import {
 } from "react-router-dom";
 import Account from "./pages/Account";
 import AccomodationForm from "./components/AccomodationForm";
-import ListingPage from "./pages/ListingPage";
+import ListingPage from "./pages/Listing/ListingPage";
 import Booking from "./pages/Booking";
 import Payment from "./pages/Payment";
 import RoomForm from "./pages/RoomForm";
 
 
 // axios.defaults.baseURL = "https://gotripapi.onrender.com";
-axios.defaults.baseURL = "http://localhost:3000";
+axios.defaults.baseURL = "https://gotripapi.onrender.com";
 axios.defaults.withCredentials = true; 
 
 function App() {
@@ -35,7 +35,6 @@ function App() {
       <Route path="/account/accomodation/:id" element={<AccomodationForm />} />,
       <Route path="/account/accomodation/:id/rooms" element={<RoomForm />} />,
       <Route path="/booking/:bookingStatus" element={<Payment />} />,
-
     ])
   );
   return (
