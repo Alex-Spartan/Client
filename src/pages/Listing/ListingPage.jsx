@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 
 import Header from "../../components/Header";
 import RoomTypes from "./RoomTypes";
-import DatesForm from "../Home/DatesForm";
+import DatesForm from "../Home/components/DatesForm";
 import Footer from "../../components/Footer";
 import PageWrapper from "../../components/PageWrapper";
 
