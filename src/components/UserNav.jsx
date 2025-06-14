@@ -1,5 +1,6 @@
 import { Heart, HelpCircle, LogOut, User } from "lucide-react";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
+import { toast } from "react-hot-toast";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,18 +12,43 @@ import {
 } from "./ui/dropdown-menu";
 import { Button } from "./ui/button";
 import { Avatar, AvatarFallback } from "./ui/avatar";
-import { UserContext } from "@/UserContext";
 import { Link } from "react-router-dom";
+import { useAppStore } from "@/store/useAppStore";
+import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 
 const UserNav = () => {
-  const { user } = useContext(UserContext);
+  const user = useAppStore((s) => s.user);
+  const setUser = useAppStore((s) => s.setUser);
+  const auth = getAuth();
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      if (currentUser === null) {
+        setUser(null);
+      }
+    });
+    return () => unsubscribe();
+  })
+
+  const handleLogout = () => {
+    signOut(auth)
+      .then(() => {
+        setUser(null);
+        toast.success("User signed out");
+      })
+      .catch((error) => {
+        console.error("Sign out error", error);
+        toast.error("Failed to sign out");
+      });
+  };
+
+
   return (
     <div className="flex items-center gap-4">
       <Button variant="ghost" size="icon" className="text-white">
         <Heart className="h-5 w-5" />
         <span className="sr-only">Wishlist</span>
       </Button>
-
 
       {user !== null ? (
         <DropdownMenu>
@@ -37,14 +63,12 @@ const UserNav = () => {
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-56" align="end" forceMount>
-            <DropdownMenuLabel>
-              <Link to={"/account"}>My Account</Link>
-            </DropdownMenuLabel>
+            <DropdownMenuLabel>My Account</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
               <DropdownMenuItem>
                 <User className="mr-2 h-4 w-4" />
-                <span>Profile</span>
+                <Link to="/account">Profile</Link>
               </DropdownMenuItem>
               <DropdownMenuItem>
                 <HelpCircle className="mr-2 h-4 w-4" />
@@ -54,16 +78,13 @@ const UserNav = () => {
             <DropdownMenuSeparator />
             <DropdownMenuItem>
               <LogOut className="mr-2 h-4 w-4" />
-              {/* Add logout link */}
-              <Link to={"/"}>Log out</Link>
+              <button onClick={handleLogout}>Log out</button>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       ) : (
         <Button className="hidden md:flex bg-white text-emerald-600 hover:bg-gray-100">
-          <Link to="/login">
-          Login / Sign Up
-          </Link>
+          <Link to="/login">Login / Sign Up</Link>
         </Button>
       )}
     </div>

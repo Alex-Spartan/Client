@@ -2,6 +2,7 @@
 import MainNav from "./MainNav";
 import UserNav from "./UserNav";
 
+
 const Header = ({ title, checkIn, checkOut }) => {
   const checkin = checkIn ? checkIn.split("T")[0] : "";
   const checkout = checkOut ? checkOut.split("T")[0] : "";

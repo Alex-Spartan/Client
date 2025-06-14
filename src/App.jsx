@@ -16,10 +16,11 @@ import ListingPage from "./pages/Listing/ListingPage";
 import Booking from "./pages/Booking";
 import Payment from "./pages/Payment";
 import RoomForm from "./pages/RoomForm";
+import { Toaster } from "react-hot-toast";
 
 
-// axios.defaults.baseURL = "https://gotripapi.onrender.com";
-axios.defaults.baseURL = "http://localhost:3000";
+axios.defaults.baseURL = "https://gotripapi.onrender.com";
+// axios.defaults.baseURL = "http://localhost:3000";
 axios.defaults.withCredentials = true; 
 
 function App() {
@@ -40,6 +41,7 @@ function App() {
   return (
     <UserContextProvider>
       <RouterProvider router={router} />
+      <Toaster />
     </UserContextProvider>
   );
 }

@@ -60,7 +60,7 @@ const MainNav = () => {
       <NavigationMenu className="hidden md:flex">
         <NavigationMenuList>
           <NavigationMenuItem>
-            <Link to="/hotel" legacyBehavior passHref>
+            <Link to="/hotel"  >
               <NavigationMenuLink
                 className={cn(
                   navigationMenuTriggerStyle(),
@@ -72,7 +72,7 @@ const MainNav = () => {
             </Link>
           </NavigationMenuItem>
           {/* <NavigationMenuItem>
-            <Link to="/destination" legacyBehavior passHref>
+            <Link to="/destination"  >
               <NavigationMenuLink
                 className={cn(
                   navigationMenuTriggerStyle(),
@@ -84,7 +84,7 @@ const MainNav = () => {
             </Link>
           </NavigationMenuItem> */}
           <NavigationMenuItem>
-            <Link to="/deals" legacyBehavior passHref>
+            <Link to="/deals"  >
               <NavigationMenuLink
                 className={cn(
                   navigationMenuTriggerStyle(),
@@ -96,7 +96,7 @@ const MainNav = () => {
             </Link>
           </NavigationMenuItem>
           <NavigationMenuItem>
-            <Link to="/contact" legacyBehavior passHref>
+            <Link to="/contact"  >
               <NavigationMenuLink
                 className={cn(
                   navigationMenuTriggerStyle(),

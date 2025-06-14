@@ -25,7 +25,7 @@ const Home = () => {
   return (
     <div className="flex min-h-screen flex-col">
       <Header />
-      <PageWrapper className="bg-[#FBFBFF]">
+      <PageWrapper>
         <section className="w-full py-6 md:py-12">
           <div className="container px-4 md:px-6">
             <HotelCarousel />
@@ -74,10 +74,6 @@ const Home = () => {
           </div>
         </section>
 
-        <div>
-          <h1 className="text-2xl font-bold md:text-3xl">Top hotels</h1>
-          <p className="text-lg">The best locations are here</p>
-        </div>
         <section className="w-full py-12">
         <div className="container px-4 md:px-6">
           <div className="flex flex-col gap-2 mb-8">

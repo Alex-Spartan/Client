@@ -1,18 +1,20 @@
-import { useContext, useEffect, useState } from "react";
+import { useState } from "react";
 
 import { Link, useNavigate } from "react-router-dom";
 import LoginForm from "../../components/LoginForm";
 import axios from "axios";
-import { UserContext } from "../../UserContext";
 import { auth } from "../../firebase/firebaseConfig";
 import { IoLogoGoogle } from "react-icons/io5";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { useAppStore } from "@/store/useAppStore";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  const { setUser } = useContext(UserContext)
+  // const { setUser } = useContext(UserContext)
+  const setUser = useAppStore((s) => s.setUser);
+  const setReady = useAppStore((s) => s.setReady);
 
   const setValue = (e, setVariable) => {
     setVariable(e.target.value);
@@ -22,7 +24,8 @@ const Login = () => {
     const provider = new GoogleAuthProvider();
     try {
       const data = await signInWithPopup(auth, provider);
-      setUser(data.user);
+      setUser(data._tokenResponse);
+      setReady(true);
       navigate("/");
     } catch (err) {
       console.error(err);
@@ -34,7 +37,7 @@ const Login = () => {
     try{
       const { data } = await axios.post("/auth/login", { email, password });
       setUser(data);
-      localStorage.setItem('user', JSON.stringify(data));
+      setReady(true);
       navigate("/");
     } 
     catch (error) {
