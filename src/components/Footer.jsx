@@ -1,4 +1,3 @@
-import React from "react";
 import {
   IoLogoFacebook,
   IoLogoYoutube,
@@ -7,52 +6,53 @@ import {
 
 const Footer = () => {
   return (
-    <div className="mt-24 px-16 py-8 text-lg text-white bg-[#12130F]">
-      <div className="flex flex-col md:grid md:grid-cols-12">
-        <div className="my-3 md:col-span-3">
-          <div className="flex flex-col font-bold">
-            <h1>GoTrip</h1>
-          </div>
-          <div>
-            <p>
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-              Doloribus reprehenderit nesciunt mollitia.
-            </p>
-          </div>
+    <footer className="bg-black border-t border-gray-200 mt-10">
+      <div className="max-w-7xl mx-auto px-6 py-10 grid grid-cols-1 md:grid-cols-4 gap-6 text-white text-sm">
+        <div>
+          <h4 className="text-lg font-semibold text-white mb-2">GoTrip</h4>
+          <p>
+            Explore the best hotel deals across India with seamless booking and trusted reviews.
+          </p>
         </div>
-        <div className="md:col-span-2"></div>
-        <div className="flex my-3 gap-16 md:gap-12 md:col-span-4">
-          <div className="flex flex-col gap-1">
-            <div>Company</div>
-            <div>Name</div>
-            <div>Address</div>
-          </div>
-          <div className="flex flex-col gap-1">
-            <div>Contact</div>
-            <div>DontContact@gmail.com</div>
-            <div>Partners</div>
-          </div>
+
+        <div className="md:flex flex-col items-center">
+          <h4 className="text-md font-semibold mb-2">Company</h4>
+          <ul className="space-y-1">
+            <li>About Us</li>
+            <li>Careers</li>
+            <li>Press</li>
+          </ul>
         </div>
-        <div className="md:col-span-1"></div>
-        <div className="flex my-2 items-center gap-4 md:col-span-2">
-          <div className="my-3">Follow us:</div>
-          <div className="flex gap-4 text-3xl">
-            <div>
-              <IoLogoFacebook />
-            </div>
-            <div>
-              <IoLogoYoutube />
-            </div>
-            <div>
-              <IoLogoInstagram />
-            </div>
+
+        <div className="">
+          <h4 className="text-md font-semibold mb-2">Contact</h4>
+          <ul className="space-y-1">
+            <li>Email: contact@gotrip.com</li>
+            <li>Phone: +91 9876543210</li>
+            <li>Partners</li>
+          </ul>
+        </div>
+
+        <div className="md:flex flex-col items-center">
+          <h4 className="text-md font-semibold mb-2">Follow Us</h4>
+          <div className="flex space-x-4 mt-2">
+            <a href="#" aria-label="Facebook">
+              <IoLogoFacebook className="text-xl" />
+            </a>
+            <a href="#" aria-label="YouTube">
+              <IoLogoYoutube className="text-xl" />
+            </a>
+            <a href="#" aria-label="Instagram">
+              <IoLogoInstagram className="text-xl" />
+            </a>
           </div>
         </div>
       </div>
-      <div className="text-center mt-2">
-        Tradmark copyright &copy; {new Date().getFullYear()}
+
+      <div className="text-center text-gray-500 text-xs py-4 border-t border-gray-200">
+        © 2025 GoTrip. All rights reserved.
       </div>
-    </div>
+    </footer>
   );
 };
 

@@ -26,7 +26,6 @@ const DatesForm = ({ className }) => {
 
   // Optional: prevent infinite loop by comparing before setting
   useEffect(() => {
-    console.log(date)
     if (date.from && date.to) {
       const fromISO = date.from.toISOString();
       const toISO = date.to.toISOString();

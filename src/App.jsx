@@ -19,8 +19,8 @@ import RoomForm from "./pages/RoomForm";
 import { Toaster } from "react-hot-toast";
 
 
-axios.defaults.baseURL = "https://gotripapi.onrender.com";
-// axios.defaults.baseURL = "http://localhost:3000";
+// axios.defaults.baseURL = "https://gotripapi.onrender.com";
+axios.defaults.baseURL = "http://localhost:3000";
 axios.defaults.withCredentials = true; 
 
 function App() {

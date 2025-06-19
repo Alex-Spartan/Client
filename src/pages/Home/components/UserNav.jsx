@@ -1,5 +1,5 @@
 import { Heart, HelpCircle, LogOut, User } from "lucide-react";
-import { useContext, useEffect } from "react";
+import { useEffect } from "react";
 import { toast } from "react-hot-toast";
 import {
   DropdownMenu,
@@ -9,9 +9,9 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "./ui/dropdown-menu";
-import { Button } from "./ui/button";
-import { Avatar, AvatarFallback } from "./ui/avatar";
+} from "../../../components/ui/dropdown-menu";
+import { Button } from "../../../components/ui/button";
+import { Avatar, AvatarFallback } from "../../../components/ui/avatar";
 import { Link } from "react-router-dom";
 import { useAppStore } from "@/store/useAppStore";
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
@@ -28,7 +28,7 @@ const UserNav = () => {
       }
     });
     return () => unsubscribe();
-  })
+  });
 
   const handleLogout = () => {
     signOut(auth)
@@ -41,7 +41,6 @@ const UserNav = () => {
         toast.error("Failed to sign out");
       });
   };
-
 
   return (
     <div className="flex items-center gap-4">
@@ -56,8 +55,7 @@ const UserNav = () => {
             <Button variant="ghost" className="relative h-10 w-10 rounded-full">
               <Avatar className="h-10 w-10">
                 <AvatarFallback className="bg-emerald-700 text-white">
-                  {/* Replace with user */}
-                  GT
+                  {user?.fullName?.charAt(0) || "U"}
                 </AvatarFallback>
               </Avatar>
             </Button>
@@ -66,19 +64,21 @@ const UserNav = () => {
             <DropdownMenuLabel>My Account</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <User className="mr-2 h-4 w-4" />
-                <Link to="/account">Profile</Link>
-              </DropdownMenuItem>
+              <Link to="/account">
+                <DropdownMenuItem className="flex items-center">
+                  <User className="mr-2 h-4 w-4" />
+                  Profile
+                </DropdownMenuItem>
+              </Link>
               <DropdownMenuItem>
                 <HelpCircle className="mr-2 h-4 w-4" />
                 <span>Help & Support</span>
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={handleLogout}>
               <LogOut className="mr-2 h-4 w-4" />
-              <button onClick={handleLogout}>Log out</button>
+              Log out
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

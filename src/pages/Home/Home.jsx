@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 
 import Footer from "../../components/Footer";
 import Header from "../../components/Header";
-import PageWrapper from "../../components/PageWrapper";
 import DatesForm from "./components/DatesForm";
 import HotelCarousel from "./components/Hotel-Carousel";
 import HotelList from "./components/Hotel-List";
@@ -23,17 +22,16 @@ const Home = () => {
   }, [setAccomodation]);
 
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="min-h-screen">
       <Header />
-      <PageWrapper>
         <section className="w-full py-6 md:py-12">
-          <div className="container px-4 md:px-6">
+          <div className="max-w-6xl mx-auto px-4 md:px-6 w-full">
             <HotelCarousel />
           </div>
         </section>
 
         <section className="w-full py-6 md:py-12 bg-slate-50">
-          <div className="container px-4 md:px-6">
+          <div className="max-w-6xl mx-auto px-4 md:px-6 w-full">
             <div className="flex flex-col items-center space-y-4 text-center">
               <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
                 Find Your Perfect Stay
@@ -75,53 +73,14 @@ const Home = () => {
         </section>
 
         <section className="w-full py-12">
-        <div className="container px-4 md:px-6">
+        <div className="max-w-6xl mx-auto px-4 md:px-6 w-full">
           <div className="flex flex-col gap-2 mb-8">
             <h2 className="text-3xl font-bold tracking-tighter">Top Hotels</h2>
             <p className="text-gray-500">Discover our most popular destinations</p>
           </div>
-
           <HotelList />
         </div>
       </section>
-      
-        {/* <div>
-          {accomodation &&
-            accomodation.map((acc) => (
-              <div key={acc._id}>
-                <div>
-                  <div className="my-6 p-4 md:grid md:grid-cols-5 hover:border-blue-950 hover:border-2 md:border-gray-700 border-2 rounded-xl">
-                    <div className="md:col-span-1">
-                      <Link to={`/hotel/${acc._id}`}>
-                        <img
-                          src={acc.photos[0]}
-                          alt=""
-                          className="md:w-[15rem] md:h-[18rem] rounded-lg"
-                        />
-                      </Link>
-                    </div>
-                    <div className="md:col-span-3 md:flex md:flex-col md:justify-around">
-                      <div className="mt-2">
-                        <Link to={`/hotel/${acc._id}`}>
-                          <p className="text-xl font-semibold">{acc.title}</p>
-                          <p>{acc.location}</p>
-                        </Link>
-                      </div>
-                      <div className="hidden md:block">
-                        <p>Shit offer 1</p>
-                        <p>Shit offer 2</p>
-                        <p>Shit offer 3</p>
-                      </div>
-                    </div>
-                    <div className="mt-2 md:border-gray-700 md:border-l md:col-span-1 md:text-center">
-                      <p>Starting from $90</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-        </div> */}
-      </PageWrapper>
       <Footer />
     </div>
   );

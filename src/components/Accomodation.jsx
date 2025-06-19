@@ -1,116 +1,243 @@
-import { Link, useParams } from "react-router-dom";
-import { IoAdd } from "react-icons/io5";
-
-import AccomodationForm from "./AccomodationForm";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import {
+  Edit,
+  Eye,
+  Image,
+  Loader2,
+  MapPin,
+  Plus,
+  Search,
+  Star,
+  Trash,
+  Users,
+} from "lucide-react";
 import { useEffect, useState } from "react";
-import axios from "axios";
+
+import { HotelService } from "@/lib/hotel-service";
+import { useAppStore } from "@/store/useAppStore";
+import { Link, useNavigate } from "react-router-dom";
 
 const Accomodation = () => {
-  const { action } = useParams();
-  const [accomodation, setAccomodation] = useState([]);
+  const user = useAppStore((s) => s.user);
+  const navigate = useNavigate();
+  const [hotels, setHotels] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
   useEffect(() => {
-    const fetchAccomodation = async () => {
-      const response = await axios.get("/places/accomodation");
-      setAccomodation(response.data);
-    };
-    fetchAccomodation();
-  }, [setAccomodation]);
+    if (!user) {
+      navigate("/");
+    }
+    fetchHotels();
+  }, []);
+  
+  const fetchHotels = async () => {
+    setLoading(true);
+    const hotelsData = await HotelService.getHotels({});
+    if (!hotelsData || hotelsData.error) {
+      console.error("Failed to fetch hotels:", hotelsData?.error);
+      setLoading(false);
+      return;
+    }
+    setLoading(false);
+    setHotels(hotelsData);
+  };
 
-  const deleteRoom = async (roomId, placeId) => {
-    await axios.delete(`/places/rooms/${roomId}?placeId=${placeId}`);
-    const updatedRooms = accomodation.map(place => {
-      if (place._id === placeId) {
-        return {
-          ...place,
-          rooms: place.rooms.filter(room => room._id !== roomId)
-        }
-      }
-      return place;
-    })
-    setRooms(updatedRooms);
-  }
+
+  const filteredHotels = hotels.filter((hotel) => {
+    const matchesSearch =
+      hotel.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      hotel.address
+        .toLowerCase()
+        .includes(searchQuery.toLowerCase()); // Changed to address
+    return matchesSearch;
+  });
 
   return (
-    <div className="mt-6">
-      {action !== "new" && (
-        <div className="flex justify-center ">
-          <Link
-            to={"new"}
-            className="flex items-center gap-1 text-white bg-[#272D2D] px-3 py-1 rounded-2xl"
-          >
-            <div>
-              <IoAdd />
-            </div>
-            Add new place
-          </Link>
+    <div className="container mx-auto px-4 py-8">
+      <div className="flex items-center justify-between mb-8">
+        <div>
+          <h1 className="text-3xl font-bold">Hotel Management</h1>
+          <p className="text-muted-foreground">Manage your hotel listings</p>
         </div>
-      )}
+        <Button asChild>
+          <Link to="/account/accomodation/new">
+            <Plus className="h-4 w-4 mr-2" />
+            Add Hotel
+          </Link>
+        </Button>
+      </div>
 
-      {action === "new" && <AccomodationForm />}
+      {/* Stats */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        <Card>
+          <CardContent className="pt-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-muted-foreground">
+                  Total Hotels
+                </p>
+                <p className="text-2xl font-bold">{filteredHotels.length}</p>
+              </div>
+              <Users className="h-8 w-8 text-muted-foreground" />
+            </div>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent className="pt-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-muted-foreground">
+                  Average Rating
+                </p>
+                <p className="text-2xl font-bold">
+                  {(
+                    filteredHotels.reduce(
+                      (sum, h) => sum + (h.ratings?.average || 0),
+                      0
+                    ) / (filteredHotels.length || 1)
+                  ).toFixed(1)}
+                </p>
+              </div>
+              <Star className="h-8 w-8 text-muted-foreground" />
+            </div>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent className="pt-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-muted-foreground">
+                  Hotels with Images
+                </p>
+                <p className="text-2xl font-bold">
+                  {
+                    filteredHotels.filter(
+                      (h) => h.photos && h.photos.length > 0
+                    ).length
+                  }
+                </p>
+              </div>
+              <Image className="h-8 w-8 text-muted-foreground" />
+            </div>
+          </CardContent>
+        </Card>
+      </div>
 
-      {accomodation &&
-        accomodation.map((place, index) => (
-          <div className="m-4 md:flex md:justify-between" key={index}>
-            <div className="border border-blue-400 rounded-md  md:w-full md:p-4 md:h-full">
-              <div className="grid grid-cols-7">
-                <div className="col-span-1 mt-3 md:mt-0 md:flex">
-                  <img
-                    width={250}
-                    height={220}
-                    src={`https://gotripapi.onrender.com/uploads/${place.photos[0]}`}
-                    // src={`https://gotripapi.onrender.com/uploads/${place.photos[0]}`}
-                    alt="image"
-                    className="w-[13rem] h-[15rem]"
-                  />
-                </div>
-                <div className="col-span-3 my-5 px-4 flex justify-between md:flex-col">
-                  <Link to={`${place._id}`}>
-                    <div className="ml-2">
-                      <p className="text-2xl text-center font-bold md:text-left">
-                        {place.title}
-                      </p>
-                      <p className="font-semibold text-center md:text-left">
-                        {place.location}
-                      </p>
+      {/* Filters */}
+      <Card className="mb-6">
+        <CardContent className="pt-6">
+          <div className="flex flex-col md:flex-row gap-4">
+            <div className="relative flex-1">
+              <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+              <Input
+                placeholder="Search hotels..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-10"
+              />
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Hotels List */}
+      {loading ? (
+        <div className="flex items-center justify-center py-12">
+          <Loader2 className="h-8 w-8 animate-spin text-emerald-600" />
+        </div>
+      ) : (
+        <div className="grid gap-6">
+          {filteredHotels.map((hotel) => (
+            <Card key={hotel._id}>
+              <CardContent className="pt-6">
+                <div className="flex flex-col md:flex-row gap-6">
+                  <div className="w-full md:w-48 h-32 relative rounded-lg overflow-hidden">
+                    <img
+                      src={
+                        hotel.mainImage ||
+                        (hotel.photos && hotel.photos[0]) ||
+                        "/placeholder.svg?height=128&width=192"
+                      }
+                      alt={hotel.title}
+                      className="object-cover w-full h-full"
+                    />
+                  </div>
+                  <div className="flex-1">
+                    <div className="flex items-start justify-between mb-2">
+                      <div>
+                        <h3 className="text-xl font-semibold">{hotel.title}</h3>
+                        <div className="flex items-center gap-1 text-sm text-muted-foreground mt-1">
+                          <MapPin className="h-3 w-3" />
+                          <span>{hotel.address}</span>
+                        </div>
+                      </div>
                     </div>
-                  </Link>
-                  <Link to={`${place._id}/rooms`} className="m-1">
-                    <button className="p-2 text-white font-medium bg-black border-none rounded-md">+ Add rooms and prices</button>
-                  </Link>
-                </div>
-                <div className="col-span-3 border-l-2 border-gray-400 h-full w-full">
-                  <div className="mx-3 my-2 h-full w-full">
-                    <div className="p-2 h-full w-full">
-                      <table className="border border-gray-500 w-full">
-                        <thead className="w-full border border-gray-500 bg-black text-white">
-                          <tr className="flex justify-around w-full my-2">
-                            <th className="flex justify-center">Room Name</th>
-                            <th className="flex justify-center">Price</th>
-                            <th className="flex justify-center">Actions</th>
-                          </tr>
-                        </thead>
-                        <tbody className="w-full">
-                          {place.rooms.map((room, index) => (
-                            <tr className="flex justify-around items-center w-full py-4 border-b border-gray-400" key={index}>
-                              <td className="flex justify-center">{room.roomType}</td>
-                              {room.refundPrice !== null ? (<td className="flex justify-center">{room.truePrice} and {room.refundPrice}</td>) : (<td className="flex justify-center">{room.truePrice}</td>)}
-                              <td className="flex flex-col justify-center">
-                                <button onClick={() => deleteRoom(room._id, place._id)}>Delete</button>
-                              </td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
+                    <p className="text-sm text-muted-foreground mb-4 line-clamp-2">
+                      {hotel.description}
+                    </p>
+                    <div className="flex items-center gap-4 mb-4 text-sm">
+                      <div className="flex items-center gap-1">
+                        <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
+                        <span>{hotel.ratings}</span>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Button variant="outline" size="sm" asChild>
+                        <Link to={`/hotel/${hotel._id}`}>
+                          <Eye className="h-3 w-3 mr-1" />
+                          View
+                        </Link>
+                      </Button>
+                      <Button variant="outline" size="sm" asChild>
+                        <Link to={`/account/accomodation/${hotel._id}`}>
+                          <Edit className="h-3 w-3 mr-1" />
+                          Edit
+                        </Link>
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="text-red-600 hover:text-red-700"
+                        onClick={() => {
+                          // Implement delete hotel logic here
+                        }}
+                      >
+                        <Trash className="h-3 w-3 mr-1" />
+                        Delete
+                      </Button>
                     </div>
                   </div>
                 </div>
-                <div>
-
+              </CardContent>
+            </Card>
+          ))}
+          {filteredHotels.length === 0 && !loading && (
+            <Card>
+              <CardContent className="pt-6">
+                <div className="text-center py-12">
+                  <Users className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+                  <h3 className="text-lg font-semibold mb-2">
+                    No hotels found
+                  </h3>
+                  <p className="text-muted-foreground mb-4">
+                    {searchQuery
+                      ? "Try adjusting your search"
+                      : "Get started by creating your first hotel"}
+                  </p>
+                  <Button asChild>
+                    <Link to="/account/accomodation/new">
+                      <Plus className="h-4 w-4 mr-2" />
+                      Add Hotel
+                    </Link>
+                  </Button>
                 </div>
-              </div>
-            </div>
-          </div>
-        ))}
+              </CardContent>
+            </Card>
+          )}
+        </div>
+      )}
     </div>
   );
 };

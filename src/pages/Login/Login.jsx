@@ -1,103 +1,126 @@
-import { useState } from "react";
-
-import { Link, useNavigate } from "react-router-dom";
-import LoginForm from "../../components/LoginForm";
-import axios from "axios";
-import { auth } from "../../firebase/firebaseConfig";
-import { IoLogoGoogle } from "react-icons/io5";
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { Input } from "@/components/ui/input";
+import { auth } from "@/firebase/firebaseConfig";
 import { useAppStore } from "@/store/useAppStore";
+
+import axios from "axios";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { useState } from "react";
+import { toast } from "react-hot-toast";
+
+import { IoLogoGoogle } from "react-icons/io5";
+import { Link, useNavigate } from "react-router-dom";
+
+import FormHeader from "@/components/Form-Header";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  // const { setUser } = useContext(UserContext)
   const setUser = useAppStore((s) => s.setUser);
-  const setReady = useAppStore((s) => s.setReady);
-
-  const setValue = (e, setVariable) => {
-    setVariable(e.target.value);
-  };
 
   const LoginWithGoogle = async () => {
     const provider = new GoogleAuthProvider();
     try {
       const data = await signInWithPopup(auth, provider);
-      setUser(data._tokenResponse);
-      setReady(true);
+      const res = await axios.post("/auth/google-login", { email: data.user.email, fullName: data.user.displayName, uid: data.user.uid });
+      const { message, error, user } = res.data;
+      if (error) {
+        toast.error(error);
+        return;
+      }
+      toast.success(message);
+      setUser(user);
       navigate("/");
     } catch (err) {
       console.error(err);
     }
-  }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try{
-      const { data } = await axios.post("/auth/login", { email, password });
-      setUser(data);
-      setReady(true);
+    try {
+      const { message, error, user } = await axios.post("/auth/login", { email, password });
+      if (error) {
+        toast.error(message);
+        return;
+      }
+      toast.success(message);
+      setUser(user);
       navigate("/");
-    } 
-    catch (error) {
+    } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   return (
-    <LoginForm title="Login">
-      <form onSubmit={handleSubmit}>
-        <div className="text-lg">
-          <div className="mt-6">
-            <div className="mb-1">
-              <label className="">Email: </label>
-            </div>
-            <div className="relative">
-              <input
-                type="email"
-                className="w-full border-none rounded-md px-2 py-1 flex-1 text-black"
-                value={email}
-                required
-                onChange={(e) => setValue(e, setEmail)}
-              />
-            </div>
-          </div>
-          <div className="mt-6">
-            <div className="mb-1">
-              <label className="">Password: </label>
-            </div>
-            <div className="relative">
-              <input
-                type="password"
-                className="w-full border-none rounded-md px-2 py-1 flex-1 text-black"
-                value={password}
-                required
-                onChange={(e) => setValue(e, setPassword)}
-              />
-            </div>
-          </div>
-          <div className="mt-6 mb-4">
-            <button className="border-none rounded-lg px-8 py-1 w-full bg-[#46494C] ">
-              Login
-            </button>
-            <button 
-              onClick={LoginWithGoogle} 
+    <div className="min-h-screen w-full flex flex-col bg-gradient-to-br from-green-100 via-blue-100 to-purple-100">
+      <FormHeader />
+
+      <main className="flex-1 flex items-center justify-center">
+        <Card className="w-full max-w-md shadow-2xl">
+          <CardHeader>
+            <CardTitle className="text-center text-2xl">Welcome Back</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700">
+                  Email
+                </label>
+                <Input
+                  type="email"
+                  placeholder="you@example.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700">
+                  Password
+                </label>
+                <Input
+                  type="password"
+                  placeholder="********"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+              </div>
+              <Button className="w-full" type="submit">
+                Login
+              </Button>
+            </form>
+            <div className="text-center text-sm text-gray-600">or</div>
+            <Button
+              className="w-full"
+              variant="outline"
               type="button"
-              className="border-none rounded-lg mt-4 px-8 py-1 w-full bg-[#46494C] flex items-center gap-2"
+              onClick={LoginWithGoogle}
             >
-              <IoLogoGoogle />
-              Login with Google
-            </button>
-          </div>
-        </div>
-      </form>
-      
-      <div className="flex gap-2">
-        <p className="text-black">Don't have an account? </p>
-        <Link className="text-blue-700 underline" to="/signup">Signup</Link>
-      </div>
-    </LoginForm>
+              <IoLogoGoogle className="mr-2" /> Login with Google
+            </Button>
+          </CardContent>
+          <CardFooter>
+            <p className="text-sm text-center w-full text-gray-600">
+              Don&apos;t have an account?
+              <Link to="/signup" className="text-blue-500 hover:underline ml-1">
+                Sign up
+              </Link>
+            </p>
+          </CardFooter>
+        </Card>
+      </main>
+    </div>
   );
 };
 
