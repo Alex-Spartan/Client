@@ -34,7 +34,7 @@ const Accomodation = () => {
   
   const fetchHotels = async () => {
     setLoading(true);
-    const hotelsData = await HotelService.getHotels({});
+    const hotelsData = await HotelService.getHotels();
     if (!hotelsData || hotelsData.error) {
       console.error("Failed to fetch hotels:", hotelsData?.error);
       setLoading(false);

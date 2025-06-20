@@ -11,11 +11,10 @@ import {
   createRoutesFromElements,
 } from "react-router-dom";
 import Account from "./pages/Account";
-import AccomodationForm from "./components/AccomodationForm";
+import AccomodationForm from "./pages/AccomodationForm";
 import ListingPage from "./pages/Listing/ListingPage";
 import Booking from "./pages/Booking";
 import Payment from "./pages/Payment";
-import RoomForm from "./pages/RoomForm";
 import { Toaster } from "react-hot-toast";
 
 
@@ -34,7 +33,6 @@ function App() {
       <Route path="/account/:subpage?" element={<Account />} />,
       <Route path="/account/accomodation/new" element={<AccomodationForm />} />,
       <Route path="/account/accomodation/:id" element={<AccomodationForm />} />,
-      <Route path="/account/accomodation/:id/rooms" element={<RoomForm />} />,
       <Route path="/booking/:bookingStatus" element={<Payment />} />,
     ])
   );
