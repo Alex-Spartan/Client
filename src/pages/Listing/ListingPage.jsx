@@ -6,7 +6,6 @@ import Header from "../../components/Header";
 import RoomTypes from "./RoomTypes";
 import DatesForm from "../Home/components/DatesForm";
 import Footer from "../../components/Footer";
-import PageWrapper from "../../components/PageWrapper";
 
 const ListingPage = () => {
   const [hotel, setHotel] = useState({});
@@ -22,7 +21,6 @@ const ListingPage = () => {
   return (
     <div>
       <Header />
-      <PageWrapper className="bg-[#FBFBFF]">
         <div className="flex justify-center">
           <div className="m-3 md:m-2 flex-1">
             <div className="flex flex-col-reverse gap-6 items-center md:flex-row md:justify-between">
@@ -117,7 +115,6 @@ const ListingPage = () => {
             <RoomTypes />
           </div>
         </div>
-      </PageWrapper>
       <Footer />
     </div>
   );
