@@ -11,7 +11,7 @@ import { format } from "date-fns";
 import { Calendar } from "@/components/ui/calendar";
 import { useAppStore } from "@/store/useAppStore";
 
-const DatesForm = ({ className }) => {
+const DatePicker = ({ className }) => {
   const checkIn = useAppStore((s) => s.checkIn);
   const checkOut = useAppStore((s) => s.checkOut);
   const setCheckIn = useAppStore((s) => s.setCheckIn);
@@ -80,4 +80,4 @@ const DatesForm = ({ className }) => {
   );
 };
 
-export default DatesForm;
+export default DatePicker;

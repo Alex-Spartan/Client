@@ -57,6 +57,7 @@ const AccomodationForm = () => {
   const [roomCheckMode, setRoomCheckMode] = useState(false);
   const [formData, setFormData] = useState({
     title: "",
+    description: "",
     address: "",
     photos: [],
     mainImage: "",
@@ -427,6 +428,29 @@ const AccomodationForm = () => {
                       required
                     />
                   </div>
+                </CardContent>
+              </Card>
+
+              {/* Description */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Description</CardTitle>
+                  <CardDescription>
+                    Provide a detailed description of your hotel
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <Textarea
+                    value={formData.description}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        description: e.target.value,
+                      })
+                    }
+                    placeholder="Describe your hotel, its features, and what makes it unique"
+                    rows={4}
+                  />
                 </CardContent>
               </Card>
 

@@ -4,14 +4,15 @@ import { useEffect, useState } from "react";
 
 import Footer from "../../components/Footer";
 import Header from "../../components/Header";
-import DatesForm from "./components/DatesForm";
 import HotelCarousel from "./components/Hotel-Carousel";
 import HotelList from "./components/Hotel-List";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import DatePicker from "./components/Date-Picker";
 
 const Home = () => {
+
   const [accomodation, setAccomodation] = useState([]);
   useEffect(() => {
     const fetchAccomodation = async () => {
@@ -58,7 +59,7 @@ const Home = () => {
                       />
                     </div>
                   </div>
-                    <DatesForm />
+                  <DatePicker />
 
                     <Button
                       size="lg"

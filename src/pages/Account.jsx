@@ -2,36 +2,16 @@ import { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 
-import axios from "axios";
 import Accomodation from "../components/Accomodation";
 import BookingList from "../components/BookingList";
 import { useAppStore } from "@/store/useAppStore";
-import { signOut } from "firebase/auth";
-import { auth } from "@/firebase/firebaseConfig";
-import { toast } from "react-hot-toast";
 import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import FormHeader from "@/components/Form-Header";
-import { Calendar, CreditCard } from "lucide-react";
 
 const Account = () => {
   const user = useAppStore((s) => s.user);
-  const setUser = useAppStore((s) => s.setUser);
   const navigate = useNavigate();
-
-  // const { bookings, loading: bookingsLoading } = useBookings()
-
-  const logout = async () => {
-    signOut(auth)
-      .then(() => {
-        setUser(null);
-        toast.success("User signed out");
-      })
-      .catch((error) => {
-        console.error("Sign out error", error);
-        toast.error("Failed to sign out");
-      });
-  };
 
   useEffect(() => {
     if (!user) {

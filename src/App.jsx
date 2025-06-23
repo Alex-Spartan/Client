@@ -12,21 +12,21 @@ import {
 } from "react-router-dom";
 import Account from "./pages/Account";
 import AccomodationForm from "./pages/AccomodationForm";
-import ListingPage from "./pages/Listing/ListingPage";
 import Booking from "./pages/Booking";
 import Payment from "./pages/Payment";
 import { Toaster } from "react-hot-toast";
+import HotelDetailsPage from "./pages/Listing/Hotel-Details";
 
 
-// axios.defaults.baseURL = "https://gotripapi.onrender.com";
-axios.defaults.baseURL = "http://localhost:3000";
+axios.defaults.baseURL = "https://gotripapi.onrender.com";
+// axios.defaults.baseURL = "http://localhost:3000";
 axios.defaults.withCredentials = true; 
 
 function App() {
   const router = createBrowserRouter(
     createRoutesFromElements([
       <Route path="/" element={<Home />} />,
-      <Route path="/hotel/:id" element={<ListingPage />} />,
+      <Route path="/hotel/:id" element={<HotelDetailsPage />} />,
       <Route path="/hotel/:id/booking" element={<Booking />} />,
       <Route path="/login" element={<Login />} />,
       <Route path="/signup" element={<Signup />} />,
