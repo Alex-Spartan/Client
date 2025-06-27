@@ -17,8 +17,8 @@ import { Toaster } from "react-hot-toast";
 import HotelDetailsPage from "./pages/Listing/Hotel-Details";
 import HotelsPage from "./pages/Listings/Hotels-Page";
 
-// axios.defaults.baseURL = "https://gotripapi.onrender.com";
-axios.defaults.baseURL = "http://localhost:3000";
+axios.defaults.baseURL = "https://gotripapi.onrender.com";
+// axios.defaults.baseURL = "http://localhost:3000";
 axios.defaults.withCredentials = true;
 
 function App() {
