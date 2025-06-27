@@ -14,7 +14,6 @@ import {
   Phone,
   Wifi,
   Car,
-  Coffee,
   Dumbbell,
   Users,
   Bed,
@@ -25,17 +24,74 @@ import {
   ChevronLeft,
   ChevronRight,
   IndianRupee,
+  Coffee,
+  Waves,
+  GlassWater,
+  ConciergeBell,
+  BriefcaseBusiness,
+  Plane,
+  PawPrint,
+  ThermometerSnowflake,
+  ThermometerSun,
+  Shirt,
+  WashingMachine,
+  Vault,
+  Refrigerator,
+  Building,
+  Mountain,
+  Bath,
+  Tv,
+  LampDesk,
+  Sofa,
+  Utensils,
 } from "lucide-react";
 import DatePicker from "../Home/components/Date-Picker";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useWishlist } from "@/hooks/use-wishlist";
 import { useAppStore } from "@/store/useAppStore";
 import { HotelService } from "@/lib/hotel-service";
 import { RoomDetailsModal } from "./components/Room-Details-Modal";
 import { useToaster } from "react-hot-toast";
 
+const amenityIcons = {
+  "Free WiFi": { icon: Wifi, label: "Free WiFi" },
+  "Swimming Pool": { icon: Waves, label: "Swimming Pool" },
+  "Fitness Center": { icon: Dumbbell, label: "Fitness Center" },
+  Spa: { icon: Coffee, label: "Spa" },
+  Restaurant: { icon: Utensils, label: "Restaurant" },
+  Bar: { icon: GlassWater, label: "Bar" },
+  "Room Service": { icon: ConciergeBell, label: "Room Service" },
+  Concierge: { icon: ConciergeBell, label: "Concierge" },
+  "Business Center": { icon: BriefcaseBusiness, label: "Business Center" },
+  Parking: { icon: Car, label: "Parking" },
+  "Airport Shuttle": { icon: Plane, label: "Airport Shuttle" },
+  "Pet Friendly": { icon: PawPrint, label: "Pet Friendly" },
+  "Air Conditioning": { icon: ThermometerSnowflake, label: "Air Conditioning" },
+  Heating: { icon: ThermometerSun, label: "Heating" },
+  "Laundry Service": { icon: WashingMachine, label: "Laundry Service" },
+  "Dry Cleaning": { icon: Shirt, label: "Dry Cleaning" },
+  Safe: { icon: Vault, label: "Safe" },
+  "Mini Bar": { icon: Refrigerator, label: "Mini Bar" },
+  Balcony: { icon: Building, label: "Balcony" },
+  "Ocean View": { icon: Waves, label: "Ocean View" },
+  "Mountain View": { icon: Mountain, label: "Mountain View" },
+  "City View": { icon: Building, label: "City View" },
+  "Private Bathroom": { icon: Bath, label: "Private Bathroom" },
+  TV: { icon: Tv, label: "TV" },
+  "Coffee Maker": { icon: Coffee, label: "Coffee Maker" },
+  Desk: { icon: LampDesk, label: "Desk" },
+  Sofa: { icon: Sofa, label: "Sofa" },
+};
+
+function getAmenityIcon(amenity) {
+  const amenityData = amenityIcons[amenity];
+  const IconComponent = amenityData ? amenityData.icon : Coffee;
+  return <IconComponent className="h-4 w-4" />;
+}
+
 export default function HotelDetailsPage() {
   const params = useParams();
+  const navigate = useNavigate();
   const user = useAppStore((s) => s.user);
   const checkin = useAppStore((s) => s.checkin);
   const checkout = useAppStore((s) => s.checkout);
@@ -131,9 +187,9 @@ export default function HotelDetailsPage() {
   };
 
   const handleBookRoom = (room) => {
-    // Navigate to booking page with room and hotel data
-    const bookingUrl = `/booking?hotel=${hotel.id}&room=${room.id}`;
-    window.location.href = bookingUrl;
+    navigate(`/hotel/booking?hotelId=${hotel._id}&roomId=${room._id}`, {
+      replace: true,
+    });
   };
 
   const nextImage = () => {
@@ -148,18 +204,6 @@ export default function HotelDetailsPage() {
         (prev) => (prev - 1 + hotel.photos.length) % hotel.photos.length
       );
     }
-  };
-
-  const getAmenityIcon = (amenity) => {
-    const iconMap = {
-      "Free WiFi": Wifi,
-      Parking: Car,
-      Restaurant: Coffee,
-      "Fitness Center": Dumbbell,
-      "Wi-Fi": Wifi,
-    };
-    const IconComponent = iconMap[amenity] || Coffee;
-    return <IconComponent className="h-4 w-4" />;
   };
 
   if (loading) {
@@ -428,7 +472,12 @@ export default function HotelDetailsPage() {
                       <label className="text-xs text-muted-foreground">
                         Adults
                       </label>
-                      <select className="w-full p-2 border rounded-md" onSelect={(e) => setGuests({ ...guests, adults: e.target.value })}>
+                      <select
+                        className="w-full p-2 border rounded-md"
+                        onSelect={(e) =>
+                          setGuests({ ...guests, adults: e.target.value })
+                        }
+                      >
                         <option value="1">1 Adult</option>
                         <option value="2" selected>
                           2 Adults
@@ -441,7 +490,12 @@ export default function HotelDetailsPage() {
                       <label className="text-xs text-muted-foreground">
                         Children
                       </label>
-                      <select className="w-full p-2 border rounded-md" onSelect={(e) => setGuests({ ...guests, children: e.target.value })}>
+                      <select
+                        className="w-full p-2 border rounded-md"
+                        onSelect={(e) =>
+                          setGuests({ ...guests, children: e.target.value })
+                        }
+                      >
                         <option value="0" selected>
                           0 Children
                         </option>

@@ -24,16 +24,15 @@ const DatePicker = ({ className }) => {
       : new Date(new Date().setDate(new Date().getDate() + 7)),
   });
 
-  // Optional: prevent infinite loop by comparing before setting
   useEffect(() => {
-    if (date.from && date.to) {
-      const fromISO = date.from.toISOString();
-      const toISO = date.to.toISOString();
+  if (date.from && date.to) {
+    const fromISO = date.from.toISOString();
+    const toISO = date.to.toISOString();
 
-      if (checkIn !== fromISO) setCheckIn(fromISO);
-      if (checkOut !== toISO) setCheckOut(toISO);
-    }
-  }, [date]);
+    if (checkIn !== fromISO) setCheckIn(fromISO);
+    if (checkOut !== toISO) setCheckOut(toISO);
+  }
+}, [date]);
 
   return (
     <div className={cn("grid gap-2", className)}>

@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Heart, Calendar, MapPin } from "lucide-react";
+import { Calendar } from "lucide-react";
 import { BookingService } from "@/lib/booking-service";
 
 const BookingList = () => {

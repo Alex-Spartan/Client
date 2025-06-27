@@ -1,127 +1,170 @@
+/* eslint-disable react/prop-types */
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { HotelService } from "@/lib/hotel-service";
 import {
-  Coffee,
   Heart,
   MapPin,
   Star,
-  Utensils,
   Wifi,
+  Coffee,
+  Utensils,
+  Car,
+  Dumbbell,
+  Waves,
+  GlassWater,
+  ConciergeBell,
+  BriefcaseBusiness,
+  Plane,
+  PawPrint,
+  ThermometerSnowflake,
+  ThermometerSun,
+  Shirt,
+  WashingMachine,
+  Vault,
+  Refrigerator,
+  Building,
+  Mountain,
+  Bath,
+  Tv,
+  LampDesk,
+  Sofa,
 } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
-const hotels = [
-  {
-    id: 1,
-    name: "Golden Tulip Goa",
-    location: "Candolim, Goa",
-    description: "Luxury resort with pool and spa facilities near the beach",
-    image: "/placeholder.svg?height=400&width=600",
-    price: 90,
-    rating: 4.5,
-    amenities: ["wifi", "breakfast", "restaurant"],
-    discount: "15% OFF",
-  },
-  {
-    id: 2,
-    name: "Taj Palace",
-    location: "Mumbai, Maharashtra",
-    description:
-      "Historic 5-star hotel with stunning architecture and sea views",
-    image: "/placeholder.svg?height=400&width=600",
-    price: 150,
-    rating: 4.8,
-    amenities: ["wifi", "breakfast", "restaurant"],
-  },
-  {
-    id: 3,
-    name: "The Leela Palace",
-    location: "Bengaluru, Karnataka",
-    description: "Opulent hotel with lush gardens and world-class dining",
-    image: "/placeholder.svg?height=400&width=600",
-    price: 120,
-    rating: 4.7,
-    amenities: ["wifi", "breakfast", "restaurant"],
-    discount: "10% OFF",
-  },
-  {
-    id: 4,
-    name: "Radisson Blu",
-    location: "Delhi, NCR",
-    description:
-      "Modern hotel with excellent business facilities and dining options",
-    image: "/placeholder.svg?height=400&width=600",
-    price: 85,
-    rating: 4.3,
-    amenities: ["wifi", "breakfast", "restaurant"],
-  },
-];
 
 const amenityIcons = {
-  wifi: <Wifi className="h-4 w-4" />,
-  breakfast: <Coffee className="h-4 w-4" />,
-  restaurant: <Utensils className="h-4 w-4" />,
-};
+  "Free WiFi": { icon: Wifi, label: "Free WiFi" },
+  "Swimming Pool": { icon: Waves, label: "Swimming Pool" },
+  "Fitness Center": { icon: Dumbbell, label: "Fitness Center" },
+  Spa: { icon: Coffee, label: "Spa" }, // Using Coffee for Spa as a general relaxation icon
+  Restaurant: { icon: Utensils, label: "Restaurant" },
+  Bar: { icon: GlassWater, label: "Bar" },
+  "Room Service": { icon: ConciergeBell, label: "Room Service" },
+  Concierge: { icon: ConciergeBell, label: "Concierge" },
+  "Business Center": { icon: BriefcaseBusiness, label: "Business Center" },
+  Parking: { icon: Car, label: "Parking" },
+  "Airport Shuttle": { icon: Plane, label: "Airport Shuttle" },
+  "Pet Friendly": { icon: PawPrint, label: "Pet Friendly" },
+  "Air Conditioning": { icon: ThermometerSnowflake, label: "Air Conditioning" },
+  Heating: { icon: ThermometerSun, label: "Heating" },
+  "Laundry Service": { icon: WashingMachine, label: "Laundry Service" },
+  "Dry Cleaning": { icon: Shirt, label: "Dry Cleaning" },
+  Safe: { icon: Vault, label: "Safe" },
+  "Mini Bar": { icon: Refrigerator, label: "Mini Bar" },
+  Balcony: { icon: Building, label: "Balcony" }, // Using Building for Balcony as a general architectural feature
+  "Ocean View": { icon: Waves, label: "Ocean View" },
+  "Mountain View": { icon: Mountain, label: "Mountain View" },
+  "City View": { icon: Building, label: "City View" },
+  "Private Bathroom": { icon: Bath, label: "Private Bathroom" },
+  TV: { icon: Tv, label: "TV" },
+  "Coffee Maker": { icon: Coffee, label: "Coffee Maker" },
+  Desk: { icon: LampDesk, label: "Desk" },
+  Sofa: { icon: Sofa, label: "Sofa" },
+}
 
-export function HotelList() {
+export function HotelList({ hotels }) {
+  
+
   return (
-    <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-2">
+    <div className="grid gap-8">
       {hotels.map((hotel) => (
-        <Card key={hotel.id} className="overflow-hidden">
-          <div className="grid md:grid-cols-[2fr_3fr]">
-            <div className="relative h-full min-h-[200px]">
-              <img
-                src={hotel.imageUrl} // replace with your image URL variable or string
-                alt="Hotel view" // provide a descriptive alt text
-                className="w-full h-64 object-cover rounded-lg"
-                loading="lazy"
-              />
+        <Card key={hotel._id} className="overflow-hidden hover:shadow-lg transition-shadow duration-300">
+          <div className="grid lg:grid-cols-[400px_1fr] gap-0">
+            {/* Image Section */}
+            <div className="relative h-64 lg:h-full min-h-[280px]">
+              <img src={hotel.photos[0] || "/placeholder.svg"} alt={hotel.title} className="w-full h-full object-cover" />
+
+
+              {/* Wishlist Button */}
               <Button
                 variant="ghost"
                 size="icon"
-                className="absolute top-2 right-2 bg-white/80 hover:bg-white text-rose-500 hover:text-rose-600"
+                className="absolute top-4 right-4 bg-white/90 hover:bg-white text-rose-500 hover:text-rose-600 shadow-sm"
               >
                 <Heart className="h-5 w-5" />
                 <span className="sr-only">Add to wishlist</span>
               </Button>
-            </div>
-            <div className="p-6 flex flex-col">
-              <div className="flex justify-between items-start">
-                <div>
-                  <h3 className="text-xl font-bold">{hotel.name}</h3>
-                  <div className="flex items-center gap-1 text-sm text-muted-foreground mt-1">
-                    <MapPin className="h-3.5 w-3.5" />
-                    <span>{hotel.location}</span>
-                  </div>
-                </div>
-                <div className="flex items-center gap-1 bg-emerald-50 text-emerald-700 px-2 py-1 rounded-md">
+
+              {/* Rating Badge */}
+              <div className="absolute bottom-4 left-4">
+                <div className="flex items-center gap-1 bg-white/95 backdrop-blur-sm px-3 py-1.5 rounded-full shadow-sm">
                   <Star className="h-4 w-4 fill-emerald-500 text-emerald-500" />
-                  <span className="font-medium">{hotel.rating}</span>
+                  <span className="font-semibold text-sm">{hotel.ratings}</span>
                 </div>
               </div>
+            </div>
 
-              <p className="mt-3 text-sm text-gray-600 flex-grow">
-                {hotel.description}
-              </p>
-
-              <div className="flex items-center gap-2 mt-4">
-                {hotel.amenities.map((amenity) => (
-                  <div
-                    key={amenity}
-                    className="flex items-center gap-1 text-sm text-gray-500 bg-gray-100 px-2 py-1 rounded-full"
-                  >
-                    {amenityIcons[amenity]}
-                    <span className="capitalize">{amenity}</span>
-                  </div>
-                ))}
-              </div>
-
-              <div className="flex items-center justify-between mt-4 pt-4 border-t">
+            {/* Content Section */}
+            <div className="p-6 flex flex-col justify-between">
+              <div className="space-y-4">
+                {/* Header */}
                 <div>
-                  <p className="text-sm text-gray-500">Starting from</p>
-                  <p className="text-xl font-bold">${hotel.price}</p>
+                  <div className="flex items-start justify-between mb-2">
+                    <h3 className="text-2xl font-bold text-gray-900 leading-tight">{hotel.title}</h3>
+                    {/* <div className="text-right ml-4">
+                      <div className="flex items-center gap-2">
+                        {hotel.originalPrice > hotel.price && (
+                          <span className="text-sm text-muted-foreground line-through">${hotel.originalPrice}</span>
+                        )}
+                        <span className="text-2xl font-bold text-emerald-600">${hotel.price}</span>
+                      </div>
+                      <span className="text-sm text-muted-foreground">per night</span>
+                    </div> */}
+                  </div>
+
+                  <div className="flex items-start gap-2 text-muted-foreground mb-3">
+                    <MapPin className="h-4 w-4 mt-0.5 flex-shrink-0" />
+                    <div>
+                      <div className="text-sm">{hotel.address}</div>
+                    </div>
+                  </div>
                 </div>
-                <Button className="bg-emerald-600 hover:bg-emerald-700">
-                  View Details
+
+                {/* Description */}
+                <p className="text-gray-600 leading-relaxed line-clamp-2">{hotel.description}</p>
+
+                {/* Amenities */}
+                <div className="flex flex-wrap gap-3">
+                  {hotel.amenities.slice(0, 2).map((amenity) => {
+                    const amenityData = amenityIcons[amenity]
+                    if (!amenityData) return null
+
+                    const IconComponent = amenityData.icon
+                    return (
+                      <div
+                        key={amenity}
+                        className="flex items-center gap-2 text-sm text-gray-600 bg-gray-50 px-3 py-1.5 rounded-full"
+                      >
+                        <IconComponent className="h-3.5 w-3.5" />
+                        <span>{amenityData.label}</span>
+                      </div>
+                    )
+                  })}
+                  {hotel.amenities.length > 5 && (
+                    <div className="flex items-center text-sm text-muted-foreground bg-gray-50 px-3 py-1.5 rounded-full">
+                      +{hotel.amenities.length - 3} more
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Actions */}
+              <div className="flex items-center justify-between pt-6 border-t">
+                <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                  <div className="flex items-center gap-1">
+                    <Star className="h-3.5 w-3.5 fill-emerald-500 text-emerald-500" />
+                    <span className="font-medium">{hotel.ratings}</span>
+                  </div>
+                  <span>•</span>
+                  <span>{hotel.reviewCount} reviews</span>
+                  <span>•</span>
+                  <span className="text-emerald-600 font-medium">Free cancellation</span>
+                </div>
+
+                <Button className="bg-emerald-600 hover:bg-emerald-700 px-8" asChild>
+                  <Link to={`/hotel/${hotel._id}`}>View Details</Link>
                 </Button>
               </div>
             </div>

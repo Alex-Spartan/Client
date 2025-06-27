@@ -1,5 +1,4 @@
 import { useAppStore } from "@/store/useAppStore";
-import axios from "axios";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -143,7 +142,6 @@ const AccomodationForm = () => {
     if (!id) return;
     HotelService.getHotels(id)
       .then((data) => {
-        console.log(data.roomTypes);
         if (data) {
           setFormData({
             ...data,
@@ -319,7 +317,6 @@ const AccomodationForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-    console.log(formData);
 
     try {
       if (!formData.title || !formData.address) {
@@ -328,10 +325,7 @@ const AccomodationForm = () => {
         return;
       }
       if (!id) {
-        const { message, error } = await axios.post(
-          "/places/accomodation",
-          formData
-        );
+        const { message, error } = await HotelService.createHotel(formData);
         if (error) {
           toast.error(message);
           setIsLoading(false);
@@ -341,7 +335,7 @@ const AccomodationForm = () => {
         toast.success("Hotel added");
         setTimeout(() => navigate("/account/accomodation"), 1500);
       } else {
-        await axios.put("/places/accomodation/" + id, formData);
+        await HotelService.updateHotel(id, formData);
         setUploadStatus(true);
         toast.success("Hotel updated!");
         setTimeout(() => navigate("/account/accomodation"), 1500);

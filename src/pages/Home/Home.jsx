@@ -17,7 +17,7 @@ const Home = () => {
   useEffect(() => {
     const fetchAccomodation = async () => {
       const response = await axios.get("/places/accomodation");
-      setAccomodation(response.data);
+      setAccomodation(response.data.slice(0, 6));
     };
     fetchAccomodation();
   }, [setAccomodation]);
@@ -79,7 +79,7 @@ const Home = () => {
             <h2 className="text-3xl font-bold tracking-tighter">Top Hotels</h2>
             <p className="text-gray-500">Discover our most popular destinations</p>
           </div>
-          <HotelList />
+          <HotelList hotels={accomodation} />
         </div>
       </section>
       <Footer />
