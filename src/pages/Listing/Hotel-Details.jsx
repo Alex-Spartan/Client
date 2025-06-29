@@ -430,7 +430,7 @@ export default function HotelDetailsPage() {
                   <div className="flex justify-between text-sm">
                     <span>Starting from</span>
                     <span className="font-semibold">
-                      $
+                      ₹
                       {Math.min(
                         ...(hotel.roomTypes?.map((r) => r.price) || [0])
                       )}
