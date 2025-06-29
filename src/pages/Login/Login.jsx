@@ -38,7 +38,7 @@ const Login = () => {
         return;
       }
       toast.success(message);
-      setUser(user);
+      setUser({ fullName: user.fullName, email: user.email, method: "google", _id: user._id });
       navigate("/");
     } catch (err) {
       console.error(err);
@@ -48,7 +48,8 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const { message, error, user } = await axios.post("/auth/login", { email, password });
+      const response = await axios.post("/auth/login", { email, password });
+      const { user, message, error } = response.data;
       if (error) {
         toast.error(message);
         return;

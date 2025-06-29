@@ -1,10 +1,10 @@
 /* eslint-disable react/prop-types */
-import { useState, useEffect } from "react"
-import { PaymentElement, useStripe, useElements, AddressElement } from "@stripe/react-stripe-js"
+import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Alert, AlertDescription } from "@/components/ui/alert"
-import { Loader2, CreditCard, Shield, Lock } from "lucide-react"
+import { AddressElement, PaymentElement, useElements, useStripe } from "@stripe/react-stripe-js"
+import { CreditCard, Loader2, Lock, Shield } from "lucide-react"
+import { useEffect, useState } from "react"
 import { useSearchParams } from "react-router-dom"
 
 
@@ -32,7 +32,7 @@ export function StripePaymentForm({ amount, onSuccess, onError, loading = false 
           setMessage("Your payment is processing.")
           break
         case "requires_payment_method":
-          setMessage("Your payment was not successful, please try again.")
+          // setMessage("Your payment was not successful, please try again.")
           break
         default:
           setMessage("Something went wrong.")

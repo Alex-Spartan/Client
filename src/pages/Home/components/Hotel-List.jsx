@@ -158,8 +158,6 @@ export function HotelList({ hotels }) {
                     <span className="font-medium">{hotel.ratings}</span>
                   </div>
                   <span>•</span>
-                  <span>{hotel.reviewCount} reviews</span>
-                  <span>•</span>
                   <span className="text-emerald-600 font-medium">Free cancellation</span>
                 </div>
 

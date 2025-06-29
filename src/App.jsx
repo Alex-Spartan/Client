@@ -1,21 +1,21 @@
 import axios from "axios";
 
-import Login from "./pages/Login/Login";
-import Signup from "./pages/Login/Signup";
-import Home from "./pages/Home/Home";
+import { Toaster } from "react-hot-toast";
 import {
+  Route,
   RouterProvider,
   createBrowserRouter,
-  Route,
   createRoutesFromElements,
 } from "react-router-dom";
-import Account from "./pages/Account";
 import AccomodationForm from "./pages/AccomodationForm";
+import Account from "./pages/Account";
 import Booking from "./pages/Booking/Booking";
-import Payment from "./pages/Payment";
-import { Toaster } from "react-hot-toast";
+import Home from "./pages/Home/Home";
 import HotelDetailsPage from "./pages/Listing/Hotel-Details";
 import HotelsPage from "./pages/Listings/Hotels-Page";
+import Login from "./pages/Login/Login";
+import Signup from "./pages/Login/Signup";
+import Payment from "./pages/Payment";
 
 axios.defaults.baseURL = "https://gotripapi.onrender.com";
 // axios.defaults.baseURL = "http://localhost:3000";

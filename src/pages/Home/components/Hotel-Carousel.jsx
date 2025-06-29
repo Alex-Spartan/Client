@@ -6,47 +6,38 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import axios from "axios";
-import { useEffect, useState } from "react";
 
 const HotelCarousel = () => {
-  const [accomodation, setAccomodation] = useState([]);
-  useEffect(() => {
-    const fetchAccomodation = async () => {
-      const response = await axios.get("/places/accomodation");
-      setAccomodation(response.data);
-    };
-    fetchAccomodation();
-  }, [setAccomodation]);
 
   const featuredDestinations = [
     {
       id: 1,
       name: "Maldives Paradise",
       description: "Luxury overwater villas with stunning ocean views",
-      image: "/placeholder.svg?height=600&width=1200",
-      price: "From $299/night",
+      image:
+        "https://www.budgetmaldives.com/wp-content/uploads/2020/05/Paradise-Island-Ocean-Suite-Exterior-01.jpg",
+      price: "From ₹7099/night",
     },
     {
       id: 2,
-      name: "Swiss Alps Retreat",
-      description: "Mountain chalets with breathtaking panoramic views",
-      image: "/placeholder.svg?height=600&width=1200",
-      price: "From $199/night",
+      name: "Manali Mountain Lodge",
+      description: "Cozy wooden cottages nestled in the Himalayas",
+      image: "https://r1imghtlak.mmtcdn.com/573d7fe9-3c16-461e-b1b1-c5c89c816074.jpg",
+      price: "From ₹3,499/night",
     },
     {
       id: 3,
-      name: "Santorini Getaway",
-      description: "Cliffside suites overlooking the Aegean Sea",
-      image: "/placeholder.svg?height=600&width=1200",
-      price: "From $249/night",
+      name: "Udaipur Heritage Haveli",
+      description: "Royal stay with lake views and traditional decor",
+      image: "https://www.onceinalifetimejourney.com/wp-content/uploads/2017/07/image5-1.png",
+      price: "From ₹6,000/night",
     },
     {
       id: 4,
-      name: "Bali Beach Resort",
-      description: "Tropical paradise with private beach access",
-      image: "/placeholder.svg?height=600&width=1200",
-      price: "From $179/night",
+      name: "Kerala Backwater Retreat",
+      description: "Houseboats and cottages amidst lush backwaters",
+      image: "https://images.luxuryescapes.com/q_auto:best,dpr_2.0/tiv6vwcrct0kumexm8tm",
+      price: "From ₹4,200/night",
     },
   ];
   return (
@@ -57,9 +48,9 @@ const HotelCarousel = () => {
             <div className="relative h-[400px] md:h-[500px] w-full overflow-hidden rounded-xl">
               <img
                 src={destination.image}
-                alt="Description of the image" 
-                className="w-full h-auto rounded-lg object-cover" 
-                loading="lazy" 
+                alt="Description of the image"
+                className="w-full h-auto rounded-lg object-cover"
+                loading="lazy"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
               <div className="absolute bottom-0 left-0 p-6 md:p-10 text-white">

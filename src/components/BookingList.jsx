@@ -36,7 +36,6 @@ const BookingList = () => {
     setBookingsLoading(false);
   }, [user]);
 
-  // const { wishlist, loading: wishlistLoading } = useWishlist()
 
   const getStatusIcon = (status) => {
     switch (status) {
@@ -93,7 +92,7 @@ const BookingList = () => {
             ) : bookings.length > 0 ? (
               <div className="space-y-4">
                 {bookings.slice(0, 5).map((booking) => (
-                  <div key={booking.id} className="border rounded-lg p-4">
+                  <div key={booking._id} className="border rounded-lg p-4">
                     <div className="flex items-start justify-between mb-3">
                       <div>
                         <h4 className="font-semibold text-lg">
@@ -186,71 +185,6 @@ const BookingList = () => {
             )}
           </CardContent>
         </Card>
-
-        {/* Favorite Hotels */}
-        {/* <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Heart className="h-5 w-5" />
-                Favorite Hotels
-              </CardTitle>
-              <CardDescription>Your saved hotels and destinations</CardDescription>
-            </CardHeader>
-            <CardContent>
-              {wishlistLoading ? (
-                <div className="flex items-center justify-center py-8">
-                  <Loader2 className="h-6 w-6 animate-spin" />
-                </div>
-              ) : wishlist.length > 0 ? (
-                <div className="space-y-4">
-                  {wishlist.slice(0, 5).map((item) => (
-                    <div key={item.id} className="border rounded-lg p-4">
-                      <div className="flex items-center gap-4">
-                        {item.hotelImage && (
-                          <div className="w-16 h-12 relative rounded-md overflow-hidden flex-shrink-0">
-                            <Image
-                              src={item.hotelImage || "/placeholder.svg?height=48&width=64"}
-                              alt={item.hotelName}
-                              fill
-                              className="object-cover"
-                            />
-                          </div>
-                        )}
-                        <div className="flex-1">
-                          <h4 className="font-semibold">{item.hotelName}</h4>
-                          <div className="flex items-center gap-2 text-sm text-muted-foreground mt-1">
-                            <MapPin className="h-3 w-3" />
-                            <span>{item.location}</span>
-                          </div>
-                          <div className="flex items-center justify-between mt-2">
-                            <p className="font-medium text-emerald-600">${item.price}/night</p>
-                            <p className="text-xs text-muted-foreground">
-                              Added {item.addedAt?.toDate().toLocaleDateString()}
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-
-                  {wishlist.length > 5 && (
-                    <Button variant="outline" className="w-full" asChild>
-                      <Link href="/wishlist">View All Favorites ({wishlist.length})</Link>
-                    </Button>
-                  )}
-                </div>
-              ) : (
-                <div className="text-center py-12">
-                  <Heart className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-                  <h3 className="text-lg font-semibold mb-2">No favorite hotels yet</h3>
-                  <p className="text-muted-foreground mb-4">Save hotels you love for easy access later</p>
-                  <Button asChild>
-                    <Link href="/">Discover Hotels</Link>
-                  </Button>
-                </div>
-              )}
-            </CardContent>
-          </Card> */}
       </div>
     </div>
   );

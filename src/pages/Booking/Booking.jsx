@@ -1,9 +1,10 @@
-import { useState, useEffect } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import Header from "@/components/Header";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import {
   Select,
   SelectContent,
@@ -12,33 +13,32 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
-import { Badge } from "@/components/ui/badge";
-import {
-  ArrowLeft,
-  Calendar,
-  MapPin,
-  Users,
-  Bed,
-  Star,
-  Phone,
-  Mail,
-  CreditCard,
-  CheckCircle,
-  Loader2,
-  AlertCircle,
-} from "lucide-react";
-import { useAppStore } from "@/store/useAppStore";
-import { Link, useSearchParams } from "react-router-dom";
-import { HotelService } from "@/lib/hotel-service";
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import DatePicker from "../Home/components/Date-Picker";
+import { Textarea } from "@/components/ui/textarea";
 import { BookingService } from "@/lib/booking-service";
-import Header from "@/components/Header";
-import { Elements } from "@stripe/react-stripe-js";
-import { StripePaymentForm } from "@/pages/Booking/Stripe-Payment-Form";
-import toast from "react-hot-toast";
-import { loadStripe } from "@stripe/stripe-js";
+import { HotelService } from "@/lib/hotel-service";
 import { PaymentService } from "@/lib/payment-service";
+import { StripePaymentForm } from "@/pages/Booking/Stripe-Payment-Form";
+import { useAppStore } from "@/store/useAppStore";
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
+import {
+  AlertCircle,
+  ArrowLeft,
+  Bed,
+  Calendar,
+  CheckCircle,
+  CreditCard,
+  Loader2,
+  Mail,
+  MapPin,
+  Phone,
+  Star,
+  Users,
+} from "lucide-react";
+import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
+import { Link, useSearchParams } from "react-router-dom";
+import DatePicker from "../Home/components/Date-Picker";
 
 export default function Booking() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -72,6 +72,7 @@ export default function Booking() {
     children: 0,
     rooms: 1,
   });
+
 
   const [errors, setErrors] = useState({});
 
@@ -139,6 +140,14 @@ export default function Booking() {
       total: roomPrice + taxes,
       nights,
     };
+  };
+
+  const handleDetailsSubmit = () => {
+    if (!user) {
+      toast.error("Please log in to continue booking.");
+      return;
+    }
+    if (validateForm()) createPaymentIntent();
   };
 
   const validateForm = () => {
@@ -279,7 +288,7 @@ export default function Booking() {
             </AlertDescription>
           </Alert>
           <Button asChild className="mt-4">
-            <Link href="/hotel">Back to Hotels</Link>
+            <Link to="/hotel">Back to Hotels</Link>
           </Button>
         </div>
       </div>
@@ -331,10 +340,10 @@ export default function Booking() {
               </div>
               <div className="flex gap-4">
                 <Button asChild className="flex-1">
-                  <Link href="/dashboard">View My Bookings</Link>
+                  <Link to="/account/bookings">View My Bookings</Link>
                 </Button>
                 <Button variant="outline" asChild className="flex-1">
-                  <Link href="/hotels">Book Another Hotel</Link>
+                  <Link to="/hotel">Book Another Hotel</Link>
                 </Button>
               </div>
             </CardContent>
@@ -350,7 +359,7 @@ export default function Booking() {
 
       <div className="container mx-auto px-4 py-8">
         <Button variant="ghost" asChild className="mb-6">
-          <Link href={`/hotels/${hotelId}`}>
+          <Link to={`/hotel/${hotelId}`}>
             <ArrowLeft className="h-4 w-4 mr-2" />
             Back to Hotel
           </Link>
@@ -630,9 +639,7 @@ export default function Booking() {
                   </div>
 
                   <Button
-                    onClick={() => {
-                      if (validateForm()) createPaymentIntent();
-                    }}
+                    onClick={handleDetailsSubmit}
                     className="w-full bg-emerald-600 hover:bg-emerald-700"
                     size="lg"
                   >

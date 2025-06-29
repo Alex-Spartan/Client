@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -7,51 +7,55 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
 import {
-  MapPin,
-  Phone,
-  Wifi,
-  Car,
-  Dumbbell,
-  Users,
-  Bed,
-  Maximize,
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
+import { Separator } from "@/components/ui/separator";
+import { HotelService } from "@/lib/hotel-service";
+import {
   ArrowLeft,
-  Loader2,
-  Calendar,
-  ChevronLeft,
-  ChevronRight,
-  IndianRupee,
-  Coffee,
-  Waves,
-  GlassWater,
-  ConciergeBell,
+  Bath,
+  Bed,
   BriefcaseBusiness,
-  Plane,
+  Building,
+  Calendar,
+  Car,
+  Coffee,
+  ConciergeBell,
+  Dumbbell,
+  GlassWater,
+  Heart,
+  IndianRupee,
+  LampDesk,
+  Loader2,
+  MapPin,
+  Maximize,
+  Mountain,
   PawPrint,
+  Phone,
+  Plane,
+  Refrigerator,
+  Shirt,
+  Sofa,
   ThermometerSnowflake,
   ThermometerSun,
-  Shirt,
-  WashingMachine,
-  Vault,
-  Refrigerator,
-  Building,
-  Mountain,
-  Bath,
   Tv,
-  LampDesk,
-  Sofa,
+  Users,
   Utensils,
+  Vault,
+  WashingMachine,
+  Waves,
+  Wifi,
 } from "lucide-react";
-import DatePicker from "../Home/components/Date-Picker";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import { useWishlist } from "@/hooks/use-wishlist";
-import { useAppStore } from "@/store/useAppStore";
-import { HotelService } from "@/lib/hotel-service";
-import { RoomDetailsModal } from "./components/Room-Details-Modal";
+import { useEffect, useState } from "react";
 import { useToaster } from "react-hot-toast";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import DatePicker from "../Home/components/Date-Picker";
+import { RoomDetailsModal } from "./components/Room-Details-Modal";
 
 const amenityIcons = {
   "Free WiFi": { icon: Wifi, label: "Free WiFi" },
@@ -92,10 +96,6 @@ function getAmenityIcon(amenity) {
 export default function HotelDetailsPage() {
   const params = useParams();
   const navigate = useNavigate();
-  const user = useAppStore((s) => s.user);
-  const checkin = useAppStore((s) => s.checkin);
-  const checkout = useAppStore((s) => s.checkout);
-  const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
   const { toast } = useToaster();
 
   const [hotel, setHotel] = useState(null);
@@ -103,11 +103,6 @@ export default function HotelDetailsPage() {
   const [selectedRoom, setSelectedRoom] = useState(null);
   const [showRoomModal, setShowRoomModal] = useState(false);
   const [isInWishlistState, setIsInWishlistState] = useState(false);
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [checkInDate, setCheckInDate] = useState(checkin || new Date());
-  const [checkOutDate, setCheckOutDate] = useState(
-    checkout || new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
-  );
   const [guests, setGuests] = useState({ adults: 2, children: 0 });
 
   useEffect(() => {
@@ -115,12 +110,6 @@ export default function HotelDetailsPage() {
       loadHotel(params.id);
     }
   }, [params.id]);
-
-  useEffect(() => {
-    if (hotel && user) {
-      checkWishlistStatus();
-    }
-  }, [hotel, user]);
 
   const loadHotel = async (hotelId) => {
     try {
@@ -135,50 +124,8 @@ export default function HotelDetailsPage() {
     }
   };
 
-  useEffect(() => {
-    if (!hotel || !hotel.photos || hotel.photos.length <= 1) return;
-
-    const interval = setInterval(() => {
-      setCurrentImageIndex((prev) => (prev + 1) % hotel.photos.length);
-    }, 3000); // 3 seconds
-
-    return () => clearInterval(interval);
-  }, [hotel, hotel?.photos?.length]);
-
-  const checkWishlistStatus = async () => {
-    if (hotel && user) {
-      const inWishlist = await isInWishlist(hotel.id);
-      setIsInWishlistState(inWishlist);
-    }
-  };
-
-  const handleWishlistToggle = async () => {
-    if (!user) {
-      toast.error("Please login to add hotels to your wishlist");
-      return;
-    }
-
-    if (!hotel) return;
-
-    try {
-      if (isInWishlistState) {
-        await removeFromWishlist(hotel.id);
-        toast.success("Hotel removed from your favorites.");
-      } else {
-        await addToWishlist({
-          hotelId: hotel.id,
-          hotelName: hotel.title,
-          hotelImage: hotel.mainImage,
-          address: hotel.address,
-          price: hotel.roomTypes?.[0]?.price || 0,
-        });
-        toast.success("Hotel added to your favorites.");
-      }
-      setIsInWishlistState(!isInWishlistState);
-    } catch (error) {
-      toast.error("Failed to update wishlist");
-      console.error("Error updating wishlist:", error);
-    }
+  const isInWishlist = () => {
+    setIsInWishlistState((prev) => !prev);
   };
 
   const handleRoomSelect = (room) => {
@@ -190,20 +137,6 @@ export default function HotelDetailsPage() {
     navigate(`/hotel/booking?hotelId=${hotel._id}&roomId=${room._id}`, {
       replace: true,
     });
-  };
-
-  const nextImage = () => {
-    if (hotel && hotel.photos.length > 0) {
-      setCurrentImageIndex((prev) => (prev + 1) % hotel.photos.length);
-    }
-  };
-
-  const prevImage = () => {
-    if (hotel && hotel.photos.length > 0) {
-      setCurrentImageIndex(
-        (prev) => (prev - 1 + hotel.photos.length) % hotel.photos.length
-      );
-    }
   };
 
   if (loading) {
@@ -245,49 +178,29 @@ export default function HotelDetailsPage() {
         {/* Hotel photos */}
         <div className="relative h-96 md:h-[500px] rounded-xl overflow-hidden mb-8">
           {hotel.photos && hotel.photos.length > 0 ? (
-            <>
-              <img
-                src={
-                  hotel.photos[currentImageIndex] ||
-                  "/placeholder.svg?height=500&width=1200"
-                }
-                alt={hotel.title}
-                className="w-full h-full object-cover"
-              />
-              {hotel.photos.length > 1 && (
-                <>
-                  <Button
-                    variant="secondary"
-                    size="icon"
-                    className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white"
-                    onClick={prevImage}
-                  >
-                    <ChevronLeft className="h-4 w-4" />
-                  </Button>
-                  <Button
-                    variant="secondary"
-                    size="icon"
-                    className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white"
-                    onClick={nextImage}
-                  >
-                    <ChevronRight className="h-4 w-4" />
-                  </Button>
-                  <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2">
-                    {hotel.photos.map((_, index) => (
-                      <button
-                        key={index}
-                        className={`w-2 h-2 rounded-full ${
-                          index === currentImageIndex
-                            ? "bg-white"
-                            : "bg-white/50"
-                        }`}
-                        onClick={() => setCurrentImageIndex(index)}
+            <Carousel className="w-full h-full">
+              <CarouselContent>
+                {hotel.photos.map((photo, idx) => (
+                  <CarouselItem key={idx}>
+                    <div className="relative h-96 md:h-[500px] w-full overflow-hidden rounded-xl">
+                      <img
+                        src={photo}
+                        alt={hotel.title}
+                        className="w-full h-full object-cover rounded-lg"
+                        loading="lazy"
                       />
-                    ))}
-                  </div>
-                </>
-              )}
-            </>
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+                    </div>
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+              <div className="absolute left-20 top-1/2 -translate-y-1/2 z-10">
+                <CarouselPrevious className="bg-white/80 hover:bg-white" />
+              </div>
+              <div className="absolute right-20 top-1/2 -translate-y-1/2 z-10">
+                <CarouselNext className="bg-white/80 hover:bg-white" />
+              </div>
+            </Carousel>
           ) : (
             <div className="w-full h-full bg-gray-200 flex items-center justify-center">
               <span className="text-gray-500">No images available</span>
@@ -321,8 +234,14 @@ export default function HotelDetailsPage() {
                   <Button
                     variant={isInWishlistState ? "default" : "outline"}
                     size="icon"
-                    onClick={handleWishlistToggle}
-                  ></Button>
+                    onClick={isInWishlist}
+                  >
+                    <Heart
+                      className={`h-4 w-4 ${
+                        isInWishlistState ? "fill-current" : ""
+                      }`}
+                    />
+                  </Button>
                 </div>
 
                 {/* Amenities */}
@@ -353,7 +272,7 @@ export default function HotelDetailsPage() {
                   <div className="space-y-4">
                     {hotel.roomTypes.map((room) => (
                       <Card
-                        key={room.id}
+                        key={room._id}
                         className="border-l-4 border-l-emerald-500"
                       >
                         <CardContent className="pt-6">
@@ -477,11 +396,10 @@ export default function HotelDetailsPage() {
                         onSelect={(e) =>
                           setGuests({ ...guests, adults: e.target.value })
                         }
+                        defaultValue={guests.adults}
                       >
                         <option value="1">1 Adult</option>
-                        <option value="2" selected>
-                          2 Adults
-                        </option>
+                        <option value="2">2 Adults</option>
                         <option value="3">3 Adults</option>
                         <option value="4">4 Adults</option>
                       </select>
@@ -495,10 +413,9 @@ export default function HotelDetailsPage() {
                         onSelect={(e) =>
                           setGuests({ ...guests, children: e.target.value })
                         }
+                        defaultValue={guests.children}
                       >
-                        <option value="0" selected>
-                          0 Children
-                        </option>
+                        <option value="0">0 Children</option>
                         <option value="1">1 Child</option>
                         <option value="2">2 Children</option>
                         <option value="3">3 Children</option>

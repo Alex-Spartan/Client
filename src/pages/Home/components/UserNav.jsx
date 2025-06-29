@@ -23,7 +23,7 @@ const UserNav = () => {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      if (currentUser === null) {
+      if (currentUser === null && user.method === "google" && user !== null) {
         setUser(null);
       }
     });

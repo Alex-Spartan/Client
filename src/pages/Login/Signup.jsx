@@ -18,6 +18,7 @@ import { auth } from "../../firebase/firebaseConfig";
 import { toast } from "react-hot-toast";
 
 const Signup = () => {
+  const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -27,15 +28,21 @@ const Signup = () => {
     const provider = new GoogleAuthProvider();
     try {
       const data = await signInWithPopup(auth, provider);
-      const { message, error } = await axios.post("/auth/google-login", {
+      const response = await axios.post("/auth/google-login", {
         email: data.user.email,
       });
+      const { user, message, error } = response.data;
       if (error) {
         toast.error(error);
         return;
       }
-      toast.success(message || "Signup successful");
-      setUser(data._tokenResponse);
+      toast.success(message);
+      setUser({
+        fullName: user.fullName,
+        email: user.email,
+        method: user.method,
+        _id: user._id,
+      });
       navigate("/");
     } catch (err) {
       console.error(err);
@@ -45,13 +52,19 @@ const Signup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const { message, error, user } = await axios.post("/auth/signup", { email, password });
+      const response = await axios.post("/auth/signup", { fullName, email, password });
+      const { user, message, error } = response.data;
       if (error) {
-        toast.error(message || "Signup failed!");
+        toast.error(message);
         return;
       }
-      toast.success(message || "Signup successful!");
-      setUser(user);
+      toast.success(message);
+      setUser({
+        fullName: user.fullName,
+        email: user.email,
+        method: user.method,
+        _id: user._id,
+      });
       navigate("/");
     } catch (error) {
       console.error(error);
@@ -88,6 +101,18 @@ const Signup = () => {
           </CardHeader>
           <CardContent className="space-y-4">
             <form onSubmit={handleSubmit} className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700">
+                  Full Name
+                </label>
+                <Input
+                  type="text"
+                  placeholder="Your Name"
+                  value={fullName}
+                  onChange={(e) => setFullName(e.target.value)}
+                  required
+                />
+              </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700">
                   Email

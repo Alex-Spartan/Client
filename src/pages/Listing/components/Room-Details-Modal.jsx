@@ -1,85 +1,80 @@
 /* eslint-disable react/prop-types */
-"use client"
-
-import { useState } from "react"
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Separator } from "@/components/ui/separator"
-import { Bed, Users, Maximize, DollarSign, ChevronLeft, ChevronRight, Wifi, Coffee, Tv } from "lucide-react"
-
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
+import {
+  Bed,
+  Users,
+  Maximize,
+  DollarSign,
+  Wifi,
+  Coffee,
+  Tv,
+} from "lucide-react";
 
 export function RoomDetailsModal({ room, hotel, open, onOpenChange, onBook }) {
-  const [currentImageIndex, setCurrentImageIndex] = useState(0)
-
-  const nextImage = () => {
-    if (room.images && room.images.length > 0) {
-      setCurrentImageIndex((prev) => (prev + 1) % room.images.length)
-    }
-  }
-
-  const prevImage = () => {
-    if (room.images && room.images.length > 0) {
-      setCurrentImageIndex((prev) => (prev - 1 + room.images.length) % room.images.length)
-    }
-  }
-
   const getAmenityIcon = (amenity) => {
     const iconMap = {
       "Wi-Fi": Wifi,
       TV: Tv,
       "Coffee Maker": Coffee,
       "Mini Fridge": Coffee,
-    }
-    const IconComponent = iconMap[amenity] || Coffee
-    return <IconComponent className="h-4 w-4" />
-  }
+    };
+    const IconComponent = iconMap[amenity] || Coffee;
+    return <IconComponent className="h-4 w-4" />;
+  };
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="text-2xl">{room.name}</DialogTitle>
+          <DialogDescription className="text-muted-foreground">
+            Details and images for {room.name}
+          </DialogDescription>
         </DialogHeader>
 
         <div className="space-y-6">
           {/* Room Images */}
           {room.images && room.images.length > 0 ? (
             <div className="relative h-64 md:h-80 rounded-lg overflow-hidden">
-              <img
-                src={room.images[currentImageIndex] || "/placeholder.svg?height=320&width=600"}
-                alt={`${room.name} - Image ${currentImageIndex + 1}`}
-                className="w-full h-full object-cover"
-              />
-              {room.images.length > 1 && (
-                <>
-                  <Button
-                    variant="secondary"
-                    size="icon"
-                    className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white"
-                    onClick={prevImage}
-                  >
-                    <ChevronLeft className="h-4 w-4" />
-                  </Button>
-                  <Button
-                    variant="secondary"
-                    size="icon"
-                    className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white"
-                    onClick={nextImage}
-                  >
-                    <ChevronRight className="h-4 w-4" />
-                  </Button>
-                  <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2">
-                    {room.images.map((_, index) => (
-                      <button
-                        key={index}
-                        className={`w-2 h-2 rounded-full ${index === currentImageIndex ? "bg-white" : "bg-white/50"}`}
-                        onClick={() => setCurrentImageIndex(index)}
+              <Carousel className="w-full h-full">
+                <CarouselContent>
+                  {room.images.map((img, idx) => (
+                    <CarouselItem key={idx}>
+                      <img
+                        src={img}
+                        alt={`${room.name} - Image ${idx + 1}`}
+                        className="w-full h-64 md:h-80 object-cover rounded-lg"
                       />
-                    ))}
-                  </div>
-                </>
-              )}
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+                {room.images.length > 1 && (
+                  <>
+                    <div className="absolute left-20 top-1/2 -translate-y-1/2 z-10">
+                      <CarouselPrevious className="bg-white/80 hover:bg-white" />
+                    </div>
+                    <div className="absolute right-20 top-1/2 -translate-y-1/2 z-10">
+                      <CarouselNext className="bg-white/80 hover:bg-white" />
+                    </div>
+                  </>
+                )}
+              </Carousel>
             </div>
           ) : (
             <div className="h-64 bg-gray-200 rounded-lg flex items-center justify-center">
@@ -108,7 +103,9 @@ export function RoomDetailsModal({ room, hotel, open, onOpenChange, onBook }) {
                 )}
                 <div className="flex items-center gap-3">
                   <DollarSign className="h-5 w-5 text-muted-foreground" />
-                  <span className="text-lg font-semibold text-emerald-600">{room.price} per night</span>
+                  <span className="text-lg font-semibold text-emerald-600">
+                    {room.price} per night
+                  </span>
                 </div>
               </div>
             </div>
@@ -124,7 +121,9 @@ export function RoomDetailsModal({ room, hotel, open, onOpenChange, onBook }) {
                     </div>
                   ))
                 ) : (
-                  <p className="text-muted-foreground text-sm">No specific amenities listed</p>
+                  <p className="text-muted-foreground text-sm">
+                    No specific amenities listed
+                  </p>
                 )}
               </div>
             </div>
@@ -143,7 +142,9 @@ export function RoomDetailsModal({ room, hotel, open, onOpenChange, onBook }) {
           {/* Hotel Info */}
           <div>
             <h3 className="text-lg font-semibold mb-3">About {hotel.title}</h3>
-            <p className="text-muted-foreground text-sm mb-3">{hotel.description}</p>
+            <p className="text-muted-foreground text-sm mb-3">
+              {hotel.description}
+            </p>
             <div className="flex flex-wrap gap-2">
               {hotel.amenities.slice(0, 6).map((amenity) => (
                 <Badge key={amenity} variant="outline" className="text-xs">
@@ -160,15 +161,22 @@ export function RoomDetailsModal({ room, hotel, open, onOpenChange, onBook }) {
 
           {/* Action Buttons */}
           <div className="flex gap-3 pt-4">
-            <Button variant="outline" onClick={() => onOpenChange(false)} className="flex-1">
+            <Button
+              variant="outline"
+              onClick={() => onOpenChange(false)}
+              className="flex-1"
+            >
               Close
             </Button>
-            <Button onClick={() => onBook(room)} className="flex-1 bg-emerald-600 hover:bg-emerald-700">
+            <Button
+              onClick={() => onBook(room)}
+              className="flex-1 bg-emerald-600 hover:bg-emerald-700"
+            >
               Book This Room
             </Button>
           </div>
         </div>
       </DialogContent>
     </Dialog>
-  )
+  );
 }
