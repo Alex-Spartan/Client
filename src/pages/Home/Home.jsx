@@ -16,7 +16,7 @@ const Home = () => {
 
   const [accomodation, setAccomodation] = useState([]);
   useEffect(() => {
-    toast("The backend might be down. Please wait 1 min for it to come back up.", {
+    toast("The backend might be asleep. Please wait 1 min for it to come back up.", {
       duration: 5000,
       icon: "⚠️",
       style: {
