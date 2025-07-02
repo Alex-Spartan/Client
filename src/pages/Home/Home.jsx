@@ -10,17 +10,26 @@ import HotelList from "./components/Hotel-List";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import DatePicker from "./components/Date-Picker";
+import toast from "react-hot-toast";
 
 const Home = () => {
 
   const [accomodation, setAccomodation] = useState([]);
   useEffect(() => {
+    toast("The backend might be down. Please wait 1 min for it to come back up.", {
+      duration: 5000,
+      icon: "⚠️",
+      style: {
+        background: "#f8d7da",
+        color: "#721c24",
+      },
+    })
     const fetchAccomodation = async () => {
       const response = await axios.get("/places/accomodation");
       setAccomodation(response.data.slice(0, 6));
     };
     fetchAccomodation();
-  }, [setAccomodation]);
+  }, []);
 
   return (
     <div className="min-h-screen">
