@@ -16,14 +16,24 @@ const Home = () => {
 
   const [accomodation, setAccomodation] = useState([]);
   useEffect(() => {
-    toast("The backend might be asleep. Please wait 1 min for it to come back up.", {
-      duration: 5000,
+    const api = axios.create({
+      timeout: 6000,
+    })
+    const res = api.get("/health").catch(() => {
+      // Ignore errors, just wake up the server
+    });
+    const { status } = res;
+    if (status !== 'ok') {
+      toast("The backend hosting service is bad Sorry :(", {
+      duration: 6000,
       icon: "⚠️",
       style: {
         background: "#f8d7da",
         color: "#721c24",
       },
     })
+    }
+    
     const fetchAccomodation = async () => {
       const response = await axios.get("/places/accomodation");
       if (response.status === 429) {
