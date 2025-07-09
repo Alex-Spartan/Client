@@ -17,8 +17,8 @@ import Login from "./pages/Login/Login";
 import Signup from "./pages/Login/Signup";
 import Payment from "./pages/Payment";
 
-axios.defaults.baseURL = "https://gotripapi.onrender.com";
-// axios.defaults.baseURL = "http://localhost:3000";
+// axios.defaults.baseURL = "https://gotripapi.onrender.com";
+axios.defaults.baseURL = "http://localhost:3000";
 axios.defaults.withCredentials = true;
 
 function App() {
