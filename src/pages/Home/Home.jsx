@@ -26,6 +26,17 @@ const Home = () => {
     })
     const fetchAccomodation = async () => {
       const response = await axios.get("/places/accomodation");
+      if (response.status === 429) {
+        toast.error("Someone exhausted my free tier request limit", {
+          duration: 5000,
+          icon: "⚠️",
+          style: {
+            background: "#f8d7da",
+            color: "#721c24",
+          },
+        });
+        return;
+      }
       setAccomodation(response.data.slice(0, 6));
     };
     fetchAccomodation();
