@@ -20,10 +20,10 @@ import {
   Bed,
   Users,
   Maximize,
-  DollarSign,
   Wifi,
   Coffee,
   Tv,
+  IndianRupee,
 } from "lucide-react";
 
 export function RoomDetailsModal({ room, hotel, open, onOpenChange, onBook }) {
@@ -102,7 +102,7 @@ export function RoomDetailsModal({ room, hotel, open, onOpenChange, onBook }) {
                   </div>
                 )}
                 <div className="flex items-center gap-3">
-                  <DollarSign className="h-5 w-5 text-muted-foreground" />
+                  <IndianRupee className="h-5 w-5 text-muted-foreground" />
                   <span className="text-lg font-semibold text-emerald-600">
                     {room.price} per night
                   </span>

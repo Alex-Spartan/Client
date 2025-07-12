@@ -31,7 +31,7 @@ const Login = () => {
     const provider = new GoogleAuthProvider();
     try {
       const data = await signInWithPopup(auth, provider);
-      const res = await axios.post("/auth/google-login", { email: data.user.email, fullName: data.user.displayName, uid: data.user.uid });
+      const res = await axios.post("/api/auth/google-login", { email: data.user.email, fullName: data.user.displayName, uid: data.user.uid });
       const { message, error, user } = res.data;
       if (error) {
         toast.error(error);
@@ -48,7 +48,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("/auth/login", { email, password });
+      const response = await axios.post("/api/auth/login", { email, password });
       const { user, message, error } = response.data;
       if (error) {
         toast.error(message);

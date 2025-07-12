@@ -15,12 +15,9 @@ import HotelDetailsPage from "./pages/Listing/Hotel-Details";
 import HotelsPage from "./pages/Listings/Hotels-Page";
 import Login from "./pages/Login/Login";
 import Signup from "./pages/Login/Signup";
-import Payment from "./pages/Payment";
 
-// axios.defaults.baseURL = "https://gotripapi.onrender.com";
-axios.defaults.baseURL = "http://localhost:3000";
+axios.defaults.baseURL = import.meta.env.VITE_API_URL;
 axios.defaults.withCredentials = true;
-
 function App() {
   const router = createBrowserRouter(
     createRoutesFromElements([
@@ -33,7 +30,6 @@ function App() {
       <Route path="/account/:subpage?" element={<Account />} />,
       <Route path="/account/accomodation/new" element={<AccomodationForm />} />,
       <Route path="/account/accomodation/:id" element={<AccomodationForm />} />,
-      <Route path="/booking/:bookingStatus" element={<Payment />} />,
     ])
   );
   return (

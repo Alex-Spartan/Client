@@ -11,47 +11,19 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import DatePicker from "./components/Date-Picker";
 import toast from "react-hot-toast";
+import { HotelService } from "@/lib/hotel-service";
 
 const Home = () => {
   const [accomodation, setAccomodation] = useState([]);
   useEffect(() => {
-    const api = axios.create({
-      timeout: 6000,
-    });
-    const warmUpBackend = async () => {
-      try {
-        const res = await api.get("/health").catch(() => {});
-        const { status } = res.data;
-        if (status !== "ok") {
-          toast("The backend hosting service is bad Sorry :(", {
-            duration: 6000,
-            icon: "⚠️",
-            style: {
-              background: "#f8d7da",
-              color: "#721c24",
-            },
-          });
-        }
-      } catch (error) {
-        console.error("Error warming up backend:", error);
-        toast.error("The backend hosting service is bad Sorry :(", {
-          duration: 6000,
-          icon: "⚠️",
-          style: {
-            background: "#f8d7da",
-            color: "#721c24",
-          },
-        });
-      }
-    };
-    warmUpBackend();
-
     const fetchAccomodation = async () => {
-      const response = await axios.get("/places/accomodation");
-      if (response.status !== 200) {
-        warmUpBackend();
+      try {
+        const response = await HotelService.getHotels();
+        setAccomodation(response.slice(0, 6));
+      } catch (error) {
+        console.error("Error fetching accommodations:", error);
+        toast.error("Failed to load accommodations");
       }
-      setAccomodation(response.data.slice(0, 6));
     };
     fetchAccomodation();
   }, []);

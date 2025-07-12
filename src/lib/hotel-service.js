@@ -4,10 +4,11 @@ export class HotelService {
     static async getHotels(id=null) {
         try {
             if (id) {
-                const response = await axios.get(`/places/accomodation/${id}`);
+                const response = await axios.get(`/api/places/${id}`);
                 return response.data;
             } else {
-                const response = await axios.get("/places/accomodation");
+                const response = await axios.get("/api/places");
+                console.log(response.data);
                 return response.data;
             }
         } catch (error) {
@@ -17,7 +18,7 @@ export class HotelService {
     }
     static async createHotel(hotelData) {
         try {
-            const response = await axios.post("/places/accomodation", hotelData);
+            const response = await axios.post("/api/places", hotelData);
             return response.data;
         } catch (error) {
             console.error("Error creating hotel:", error);
@@ -26,7 +27,7 @@ export class HotelService {
     }
     static async updateHotel(id, hotelData) {
         try {
-            const response = await axios.put(`/places/accomodation/${id}`, hotelData);
+            const response = await axios.put(`/api/places/${id}`, hotelData);
             return response.data;
         } catch (error) {
             console.error("Error updating hotel:", error);

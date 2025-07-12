@@ -19,7 +19,7 @@ export default function HotelsPage() {
         setLoading(true);
         const allHotels = await HotelService.getHotels();
         setHotels(allHotels);
-        setFilteredHotels(allHotels); // Initialize filtered hotels with all hotels
+        setFilteredHotels(allHotels);
       } catch (error) {
         console.error("Error loading hotels:", error);
       } finally {

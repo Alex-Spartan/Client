@@ -38,10 +38,10 @@ import {
   Phone,
   Plus,
   X,
-  DollarSign,
   Bed,
   Users,
   Loader2,
+  IndianRupee,
 } from "lucide-react";
 import { storage } from "@/firebase/firebaseConfig";
 import FormHeader from "@/components/Form-Header";
@@ -653,7 +653,7 @@ const AccomodationForm = () => {
                           </div>
                           <div className="space-y-2">
                             <Label className="flex items-center gap-2">
-                              <DollarSign className="h-4 w-4" />
+                              <IndianRupee className="h-4 w-4" />
                               Price per Night
                             </Label>
                             <Input
@@ -755,7 +755,7 @@ const AccomodationForm = () => {
                                     Max {room.maxOccupancy}
                                   </span>
                                   <span className="flex items-center gap-1">
-                                    <DollarSign className="h-3 w-3" />$
+                                    <IndianRupee className="h-3 w-3" />$
                                     {room.price}/night
                                   </span>
                                   {room.size > 0 && (

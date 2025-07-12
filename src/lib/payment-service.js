@@ -9,17 +9,22 @@ export const PaymentService = async (paymentBody) => {
     }
     
     try {
-
         const stripe = await stripePromise;
-        const response = await axios.post("/bookings/create-payment-intent", paymentBody)
-        if (response.status !== 201) {
+        const response = await axios.post("/api/bookings/create-payment-intent", paymentBody)
+        
+        if (response.status !== 200 && response.status !== 201) {
             throw new Error("Failed to create payment intent. Please try again later.");
         }
+        
         const { clientSecret, paymentIntentId } = response.data;
+        
+        if (!clientSecret) {
+            throw new Error("Invalid response from payment service. Missing client secret.");
+        }
+        
         return { clientSecret, paymentIntentId };
     } catch (error) {
-        console.error("PaymentService error:", error);
+        console.error("PaymentService error:", error);        
         throw new Error("An error occurred while processing the payment. Please try again later.");
     }
-    
 }

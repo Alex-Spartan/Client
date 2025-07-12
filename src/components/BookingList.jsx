@@ -111,7 +111,7 @@ const BookingList = () => {
                       </div>
                       <div className="text-right">
                         <p className="font-semibold text-lg">
-                          ${booking.totalAmount}
+                          ₹{booking.totalAmount}
                         </p>
                         <Badge
                           className={`${getStatusColor(
